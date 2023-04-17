@@ -10,17 +10,17 @@
 
 		<link rel='stylesheet' href='/main.css' />
 
-		<script src='/scripts/main.js' type="module"></script>
-				{{#each js}}
-			<script src='/scripts/{{this}}.js' type="module"></script>
-		{{/each}}
+		<script src='/socket.io/socket.io.js' defer></script>
+		<script src='/scripts/socket.js' type="module"></script>
 
 		<meta name="currentView" content="{{meta.viewName}}">
 
 	</head>
 	<body>
 
-	{{{body}}}
+		<div class="{{meta.viewName}} chatview">
+			{{{body}}}
+		</div>
 
 	</body>
 </html>

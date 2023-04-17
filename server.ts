@@ -1,4 +1,7 @@
 import express from 'express';
+import { Server } from 'socket.io';
+import http from 'http';
+
 import compression from 'compression';
 import path from 'path';
 
@@ -13,10 +16,11 @@ dotenv.config();
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
-
 const __dirname = path.dirname(__filename);
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 
 // handlebars stuff
 app.engine(
@@ -25,7 +29,7 @@ app.engine(
 		layoutsDir: `${path.join(__dirname)}/views`,
 		partialsDir: `${path.join(__dirname)}/views/partials`,
 		defaultLayout: 'main',
-		extname: '.hbs',
+		extname: '.hbs'
 		// helpers: { ...hbsHelpers, ...pokemonHelpers }
 	})
 );
@@ -43,7 +47,14 @@ routes.forEach((route) => {
 	app.use(route.path, route.view);
 });
 
+// socket.io
+io.on('connect', (socket) => {
+	socket.on('message', (message) => {
+		io.emit('message', message);
+	});
+});
+
 const port = process.env.PORT || 3000;
-app.listen(port, () => {
+server.listen(port, () => {
 	console.log(`Server is running at http://localhost:${port}`);
 });

@@ -1,0 +1,54 @@
+.chatview main {
+	width: 90%;
+	max-width: 1000px;
+	margin: 0 auto;
+	position: relative;
+	height: 100vh;
+}
+
+.chatview main ul {
+	display: flex;
+	flex-direction: column;
+	gap: .5em;
+}
+
+.chatview main form {
+	position: absolute;
+	bottom: 3rem;
+	left: 0;
+	width: 100%;
+}
+
+.chatview main form label {
+	display: none;
+}
+
+.chatview main form input {
+	width: 100%;
+	padding: .5em 1em;
+	height: 3rem;
+	font-size: 1.3rem;
+}
+
+.chatview main form button[type="submit"] {
+	position: absolute;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	width: 3rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border: none;
+	border-left: 1px solid red;
+}
+
+.chatview main form button[type="submit"]:disabled {
+	background-color: red;
+}
+
+.chatview main form button[type="submit"] svg {
+	width: 70%;
+	height: 70%;
+}

@@ -31,6 +31,7 @@
 		"@types/gulp-concat": "^0.0.33",
 		"@types/gulp-uglify": "^3.0.7",
 		"@types/node": "^18.15.3",
+		"browserify": "^17.0.0",
 		"chokidar-cli": "^3.0.0",
 		"gulp": "^4.0.2",
 		"gulp-autoprefixer": "^8.0.0",
