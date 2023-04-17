@@ -1,5 +1,3 @@
-import { socket } from './socket.js';
-
 const msgContainer = document.querySelector('.msg-container') as HTMLUListElement;
 const msgForm = document.querySelector('form.msg-form') as HTMLFormElement;
 const msgInput = msgForm.querySelector('input') as HTMLInputElement;

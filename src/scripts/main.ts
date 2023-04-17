@@ -1,1 +1,3 @@
-console.log('ik ben een ander bestand lol');
+// const socket = io();
+
+// export { socket };

@@ -15,6 +15,8 @@ dotenv.config();
 
 import { fileURLToPath } from 'url';
 
+import { createRoom } from './utils/manageRooms.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -49,6 +51,7 @@ routes.forEach((route) => {
 
 // socket.io
 io.on('connect', (socket) => {
+	createRoom();
 	socket.on('message', (message) => {
 		io.emit('message', message);
 	});
