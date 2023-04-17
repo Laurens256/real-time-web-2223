@@ -30,7 +30,7 @@ app.engine(
 		partialsDir: `${path.join(__dirname)}/views/partials`,
 		defaultLayout: 'main',
 		extname: '.hbs'
-		// helpers: { ...hbsHelpers, ...pokemonHelpers }
+		// helpers: { ...hbsHelpers }
 	})
 );
 app.set('view engine', 'hbs');
