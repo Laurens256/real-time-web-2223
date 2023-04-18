@@ -21,7 +21,7 @@ const metaData = {
 	HomeView: {
 		title: 'RealTime Web | Home',
 		description: '',
-		scripts: ['home']
+		scripts: ['home', 'socket']
 	},
 	Fallback: {
 		title: 'RealTime Web',

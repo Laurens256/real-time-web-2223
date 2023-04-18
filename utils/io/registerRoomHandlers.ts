@@ -1,11 +1,20 @@
+import { createRoom, roomExists } from '../manageRooms.js';
+
 const registerRoomHandlers = (io: any, socket: any) => {
 	socket.on('room:create', () => {
-		console.log('room:create');
+		const room = createRoom();
+
+		socket.emit('room:create', room);
+		socket.join(room);
 	});
 
 	socket.on('room:join', (room: string) => {
-		console.log('socket', room);
-		socket.join(room);
+		if (roomExists(room)) {
+			socket.emit('room:join:success', room);
+			socket.join(room);
+		} else {
+			socket.emit('room:join:error', 'Room does not exist');
+		}
 	});
 };
 
