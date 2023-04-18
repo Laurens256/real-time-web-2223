@@ -8,12 +8,10 @@ const homeView = () => {
 	);
 	const joinRoomInput: HTMLInputElement | null = document.querySelector('#join_input');
 
-
 	const init = () => {
 		createRoomForm?.addEventListener('submit', createRoom);
 		joinRoomForm?.addEventListener('submit', joinRoom);
 	};
-
 
 	const createRoom = (e: SubmitEvent) => {
 		e.preventDefault();
@@ -22,49 +20,35 @@ const homeView = () => {
 
 	const joinRoom = (e: SubmitEvent) => {
 		e.preventDefault();
-		const roomId = joinRoomInput?.value;
-
-		if (roomId) {
-			socket.emit('room:join', roomId);
-		}
+		window.location.href = `/rooms/${joinRoomInput?.value}`;
 	};
 
-	socket.on('room:join:success', (room: any) => {
-		window.location.href = `/rooms/${room.id}`;
-	});
-
-	socket.on('room:join:error', (error: string) => {
-		console.log(error);
-	});
-
-	socket.on('test', (message: string) => {
-		console.log(message);
-	});
-
-	socket.on('test2', (message: string) => {
-		console.log(message);
+	socket.on('room:create:success', (room: string) => {
+		window.location.href = `/rooms/${room}`;
 	});
 
 	init();
 };
 
 const roomView = () => {
-	const button = document.querySelector('button') as HTMLButtonElement;
-	button.addEventListener('click', () => {
-		socket.emit('test', 'Hello from client');
+	const init = () => {
+		const roomCode = window.location.pathname.split('/')[2];
+		socket.emit('room:join', roomCode);
+	};
+
+	socket.on('room:join:success', (room: string) => {
+		console.log(room);
 	});
 
-	socket.on('test', (message: string) => {
+	socket.on('room:join:error', (error: string) => {
+		console.log(error);
+	});
+
+	socket.on('room:message:system', (message: string) => {
 		console.log(message);
 	});
 
-	socket.on('test2', (message: string) => {
-		console.log(message);
-	});
-
-	socket.on('test3', (message: string) => {
-		console.log('clicked');
-	});
+	init();
 };
 
 // regex that matches for /rooms/ + id with length of 6 containing only letters and numbers
@@ -73,8 +57,6 @@ const roomRegex = /^\/rooms\/[a-zA-Z0-9]{6}$/;
 	const path = window.location.pathname;
 	if (path === '/') {
 		homeView();
-	} else if (path === '/rooms') {
-		roomView();
 	} else if (roomRegex.test(path)) {
 		roomView();
 	}

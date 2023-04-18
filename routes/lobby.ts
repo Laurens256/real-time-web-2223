@@ -1,6 +1,5 @@
 import express, { Request } from 'express';
 import { roomExists } from '../utils/manageRooms.js';
-import { io } from '../server.js';
 
 const router = express.Router({ mergeParams: true });
 
@@ -9,12 +8,12 @@ interface iReqWithParams extends Request {
 }
 
 router.get('/', async (req: iReqWithParams, res) => {
-	if (roomExists(req.params.id)) {
+	// if (roomExists(req.params.id)) {
 		return res.render('lobby', {
 			...res.locals,
 			room: req.params.id
 		});
-	}
+	// }
 
 	res.send('room bestaat niet');
 });
