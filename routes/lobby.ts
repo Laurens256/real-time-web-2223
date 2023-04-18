@@ -1,5 +1,6 @@
 import express, { Request } from 'express';
 import { roomExists } from '../utils/manageRooms.js';
+import { io } from '../server.js';
 
 const router = express.Router({ mergeParams: true });
 

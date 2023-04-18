@@ -8,7 +8,6 @@ if (msgContainer && msgForm && msgInput) {
 
 		if (msgInput.value) {
 			socket.emit('message', msgInput.value);
-			socket.emit('room:join', 'test');
 			msgInput.value = '';
 		}
 	});

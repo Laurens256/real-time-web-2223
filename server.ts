@@ -58,9 +58,9 @@ routes.forEach((route) => {
 
 // socket.io
 io.on('connect', (socket) => {
-	socket.on('message', (message) => {
-		io.emit('message', message);
-	});
+	// socket.on('message', (message) => {
+	// 	io.emit('message', message);
+	// });
 
 	registerRoomHandlers(io, socket);
 });
