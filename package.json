@@ -8,7 +8,7 @@
 		"prestart": "npm run clear && tsc && npm run prep",
 		"start": "node dist/server.js",
 		"predev": "tsc && npm run prep",
-		"dev": "nodemon dist/server.js & npm run watch & tsc -w",
+		"dev": "nodemon --inspect dist/server.js & npm run watch & tsc -w",
 		"prep": "npm-run-all prep:*",
 		"prep:css": "node dist/build-scripts/build-styles.js",
 		"prep:js": "node dist/build-scripts/build-scripts.js",

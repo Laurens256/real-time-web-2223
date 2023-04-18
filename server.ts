@@ -7,6 +7,7 @@ import path from 'path';
 
 // hbs
 import { engine } from 'express-handlebars';
+import hbsHelpers from './utils/hbsHelpers.js';
 
 import routes from './routes/routes.js';
 
@@ -16,6 +17,9 @@ dotenv.config();
 import { fileURLToPath } from 'url';
 
 import { createRoom } from './utils/manageRooms.js';
+
+// middleware
+import { setMeta } from './middleware/meta.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -31,8 +35,8 @@ app.engine(
 		layoutsDir: `${path.join(__dirname)}/views`,
 		partialsDir: `${path.join(__dirname)}/views/partials`,
 		defaultLayout: 'main',
-		extname: '.hbs'
-		// helpers: { ...hbsHelpers }
+		extname: '.hbs',
+		helpers: { ...hbsHelpers }
 	})
 );
 app.set('view engine', 'hbs');
@@ -43,6 +47,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // middleware
 app.use(compression());
+app.use(setMeta);
 
 // routes
 routes.forEach((route) => {

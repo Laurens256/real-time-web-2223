@@ -1,0 +1,11 @@
+.homeview {
+
+}
+
+.homeview section[class$="popup"] {
+	display: none;
+}
+
+.homeview section[class$="popup"].active {
+	display: block;
+}

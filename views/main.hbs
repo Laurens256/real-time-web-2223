@@ -5,20 +5,26 @@
 		<meta http-equiv='X-UA-Compatible' content='IE=edge' />
 		<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 		<title>{{meta.title}}</title>
-		<meta name='description' content='{{meta.description}}'>
-		<link rel="icon" type="image/x-icon" href="/img/favicon.png">
+		<meta name='description' content='{{meta.description}}' />
+		<link rel='icon' type='image/x-icon' href='/img/favicon.png' />
 
 		<link rel='stylesheet' href='/main.css' />
 
-		<script src='/socket.io/socket.io.js' defer></script>
-		<script src='/scripts/socket.js' type="module"></script>
+		{{#each meta.scripts}}
+			{{!-- load external socket io script if my own socket.js script is loaded --}}
+			{{#if (eq this 'socket')}}
+				<script src='/socket.io/socket.io.js' defer></script>
+			{{/if}}
+			
+			<script src='/scripts/{{this}}.js' defer></script>
+		{{/each}}
 
-		<meta name="currentView" content="{{meta.viewName}}">
+		<meta name='currentView' content='{{meta.viewName}}' />
 
 	</head>
 	<body>
 
-		<div class="{{meta.viewName}} chatview">
+		<div class='{{toLowerCase meta.viewName}}'>
 			{{{body}}}
 		</div>
 
