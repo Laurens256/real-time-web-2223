@@ -1,6 +1,7 @@
 import { createRoom, roomExists } from '../manageRooms.js';
 
 const registerRoomHandlers = (io: any, socket: any) => {
+	// create room
 	socket.on('room:create', () => {
 		const room = createRoom();
 		socket.join(room);
@@ -8,6 +9,7 @@ const registerRoomHandlers = (io: any, socket: any) => {
 		socket.emit('room:create:success', room);
 	});
 
+	// join room
 	socket.on('room:join', (room: string) => {
 		if (roomExists(room)) {
 			socket.join(room);
@@ -18,6 +20,13 @@ const registerRoomHandlers = (io: any, socket: any) => {
 		} else {
 			socket.emit('room:join:error', 'Room does not exist');
 		}
+	});
+
+	// send message to room
+	socket.on('room:msg', (msg: string) => {
+		const room = Array.from(socket.rooms)[1];
+		console.log(room);
+		io.to(room).emit("room:msg", msg);
 	});
 };
 

@@ -1,3 +1,4 @@
+// @ts-nocheck
 const homeView = () => {
 	const createRoomForm: HTMLFormElement | null = document.querySelector(
 		'form[action="/rooms/create"]'
@@ -30,27 +31,6 @@ const homeView = () => {
 	init();
 };
 
-const roomView = () => {
-	const init = () => {
-		const roomCode = window.location.pathname.split('/')[2];
-		socket.emit('room:join', roomCode);
-	};
-
-	socket.on('room:join:success', (room: string) => {
-		console.log(room);
-	});
-
-	socket.on('room:join:error', (error: string) => {
-		console.log(error);
-	});
-
-	socket.on('room:message:system', (message: string) => {
-		console.log(message);
-	});
-
-	init();
-};
-
 // regex that matches for /rooms/ + id with length of 6 containing only letters and numbers
 const roomRegex = /^\/rooms\/[a-zA-Z0-9]{6}$/;
 (() => {
@@ -58,6 +38,6 @@ const roomRegex = /^\/rooms\/[a-zA-Z0-9]{6}$/;
 	if (path === '/') {
 		homeView();
 	} else if (roomRegex.test(path)) {
-		roomView();
+		initLobby();
 	}
 })();

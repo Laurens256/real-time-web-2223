@@ -1,6 +1,4 @@
-const rooms: { [k: string]: {} } = {
-	123456: { public: true }
-};
+const rooms: { [k: string]: {} } = {};
 
 // generate a unique room code with a length of 6 letters
 const createRoom = () => {

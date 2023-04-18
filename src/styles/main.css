@@ -24,8 +24,17 @@ button {
 
 body {
 	font-family: 'Open Sans', sans-serif;
+	background-color: var(--bg-color);
+	color: var(--text-color);
 }
 
 :root {
+	--bg-color: #1e1e1e;
+	--bg-color-secondary: #2b2b2b;
 
+	--text-color: #fff;
+	--text-color-light: #f1f1f1;
+	--text-color-reverse: #000;
+
+	--accent-color: #ff6b81;
 }
