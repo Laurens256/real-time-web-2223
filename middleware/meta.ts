@@ -27,6 +27,11 @@ const metaData = {
 		title: 'RealTime Web',
 		description: '',
 		scripts: []
+	},
+	RoomView: {
+		title: 'RealTime Web | Rooms',
+		description: '',
+		scripts: ['socket']
 	}
 };
 

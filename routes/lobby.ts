@@ -1,5 +1,7 @@
 import express, { Request } from 'express';
 import { createRoom, roomExists } from '../utils/manageRooms.js';
+import { io } from '../server.js';
+
 const router = express.Router({ mergeParams: true });
 
 interface iReqWithParams extends Request {
@@ -9,6 +11,9 @@ interface iReqWithParams extends Request {
 router.get('/', async (req: iReqWithParams, res) => {
 	if (req.params.id === 'create') {
 		const room = createRoom();
+
+		io.emit('room:create', room);
+
 		return res.redirect(`/rooms/${room}`);
 
 	} else if (roomExists(req.params.id)) {

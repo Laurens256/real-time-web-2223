@@ -16,10 +16,11 @@ dotenv.config();
 
 import { fileURLToPath } from 'url';
 
-import { createRoom } from './utils/manageRooms.js';
-
 // middleware
 import { setMeta } from './middleware/meta.js';
+
+// socket.io
+import { registerRoomHandlers } from './utils/io/registerRoomHandlers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,13 +58,16 @@ routes.forEach((route) => {
 
 // socket.io
 io.on('connect', (socket) => {
-	createRoom();
 	socket.on('message', (message) => {
 		io.emit('message', message);
 	});
+
+	registerRoomHandlers(io, socket);
 });
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
 	console.log(`Server is running at http://localhost:${port}`);
 });
+
+export { io };
