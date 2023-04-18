@@ -32,9 +32,10 @@ const initLobbyMsg = () => {
 			}
 		});
 
-		socket.on('room:msg', (msg: string) => {
+		socket.on('room:msg', (messageObj: any) => {
+			const { user, msg } = messageObj;
 			msgContainer.appendChild(
-				Object.assign(document.createElement('li'), { textContent: msg })
+				Object.assign(document.createElement('li'), { textContent: user + ': ' + msg })
 			);
 			msgContainer.scrollTop = msgContainer.scrollHeight;
 		});

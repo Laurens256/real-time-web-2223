@@ -1,4 +1,4 @@
-import { createRoom, roomExists } from '../manageRooms.js';
+import { createRoom, getCurrentUser, roomExists, userJoin } from '../manageRooms.js';
 
 const registerRoomHandlers = (io: any, socket: any) => {
 	// create room
@@ -14,7 +14,9 @@ const registerRoomHandlers = (io: any, socket: any) => {
 		if (roomExists(room)) {
 			socket.join(room);
 
-			socket.broadcast.to(room).emit('room:message:system', 'A user has joined the room');
+			userJoin(room, { id: socket.id, name: 'bertus' });
+
+			socket.broadcast.to(room).emit('room:message:system', 'bertus has joined the room');
 
 			socket.emit('room:join:success', room);
 		} else {
@@ -24,9 +26,14 @@ const registerRoomHandlers = (io: any, socket: any) => {
 
 	// send message to room
 	socket.on('room:msg', (msg: string) => {
-		const room = Array.from(socket.rooms)[1];
-		console.log(room);
-		io.to(room).emit("room:msg", msg);
+		// TODO: dit normaal maken lol
+		const room = Array.from(socket.rooms)[1] as string;
+		
+		const user = getCurrentUser(room, socket.id).name;
+		console.log(user);
+
+
+		io.to(room).emit("room:msg", {user, msg});
 	});
 };
 
