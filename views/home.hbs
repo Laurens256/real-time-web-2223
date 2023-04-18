@@ -3,10 +3,17 @@
 	<a href='#join'>Join Room</a>
 </section>
 
-<section class="create-popup">
-	create
+<section class='create-popup'>
+	<a href='/rooms/create'>Create</a>
 </section>
 
-<section class="join-popup">
-	join
+<section class='join-popup'>
+	<form action='/rooms/join' method="post">
+		<label for='join_input'>Enter the room code</label>
+		<input id='join_input' name="id" type='text' autocomplete="off" value="dsadsa" maxlength="6"/>
+
+		<button type='submit'>Join</button>
+	</form>
 </section>
+
+<a class='popup-bg' href='#' tabindex='0'></a>

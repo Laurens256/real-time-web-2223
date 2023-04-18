@@ -1,10 +1,11 @@
 import chat from './chat.js';
 import home from './home.js';
+import rooms from './rooms.js';
+import lobby from './lobby.js';
 
 const routes = [
-	// { path: '/filters', view: filters, viewName: 'FilterView' },
-	// { path: '/pokemon/:name', view: pokemonDetails, viewName: 'PokemonDetailsView' },
-	// { path: '/pokemon', view: pokemonList, viewName: 'PokemonListView' },
+	{ path: '/rooms/:id', view: lobby, viewName: 'LobbyView' },
+	{ path: '/rooms', view: rooms, viewName: 'RoomView' },
 	{ path: '/chat', view: chat, viewName: 'ChatView' },
 	{ path: '/', view: home, viewName: 'HomeView' },
 

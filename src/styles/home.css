@@ -1,11 +1,32 @@
-.homeview {
-
-}
-
-.homeview section[class$="popup"] {
+.homeview section[class*="popup"] {
 	display: none;
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: green;
+	width: 95%;
+	max-width: 500px;
+	height: 95%;
+	max-height: 550px;
+	padding: 2em;
+	z-index: 10;
+	border-radius: 10px;
 }
 
-.homeview section[class$="popup"].active {
+.homeview section[class*="popup"].active {
+	display: block;
+}
+
+/* bg for clicking outside popup to close it */
+.homeview section[class*="popup"] ~ a.popup-bg {
+	display: none;
+	position: fixed;
+	inset: 0;
+	background: rgba(0, 0, 0, 0.3);
+	z-index: 9;
+}
+
+.homeview section[class*="popup"].active ~ a.popup-bg {
 	display: block;
 }

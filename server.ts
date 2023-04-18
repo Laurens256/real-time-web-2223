@@ -46,6 +46,7 @@ app.set('views', './views');
 app.use(express.static(path.join(__dirname, '/public')));
 
 // middleware
+app.use(express.json(), express.urlencoded({extended: true}));
 app.use(compression());
 app.use(setMeta);
 
