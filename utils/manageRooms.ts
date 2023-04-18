@@ -1,10 +1,15 @@
-const rooms: { [k: string]: {} } = {};
+interface iRoomOptions {
+	name: string;
+	public: boolean;
+};
+
+const rooms: { [k: string]: iRoomOptions } = {};
 
 // generate a unique room code with a length of 6 letters
 const createRoom = () => {
 	const room = generateRoomId();
 
-	rooms[room] = { public: true };
+	rooms[room] = { name: 'Mijn room :3', public: true };
 	return room;
 };
 

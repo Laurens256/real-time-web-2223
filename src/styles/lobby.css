@@ -22,6 +22,10 @@
 	font-size: 2.5rem;
 }
 
+.lobbyview header h1::selection {
+	color: var(--accent-color);
+}
+
 /* ----------------------------- */
 /* --------- chat aside -------- */
 /* ----------------------------- */

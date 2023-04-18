@@ -13,11 +13,6 @@ const setMeta = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const metaData = {
-	ChatView: {
-		title: 'RealTime Web | Chat',
-		description: '',
-		scripts: ['socket']
-	},
 	HomeView: {
 		title: 'RealTime Web | Home',
 		description: '',

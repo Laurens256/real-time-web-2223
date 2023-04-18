@@ -15,10 +15,10 @@ const tsConfig2 = ts.createProject('src/scripts/tsconfig.json');
 		.pipe(gulp.dest('./dist/public/'));
 })();
 
-// files in socket folder get minified and bundled into socket.js, make sure socket.ts is first, then all other ts files
+// files in socket folder get minified and bundled into socket.js, make sure socket.ts is first, then all other ts files except manager.ts, then manager.ts
 (() => {
 	return gulp
-		.src(['src/scripts/socket/socket.ts', 'src/scripts/socket/*.ts'], { base: './src' })
+		.src(['src/scripts/socket/socket.ts', 'src/scripts/socket/!(manager).ts', 'src/scripts/socket/manager.ts'], { base: './src' })
 		.pipe(tsConfig2())
 		.pipe(concat('socket.js'))
 		.pipe(uglify())
