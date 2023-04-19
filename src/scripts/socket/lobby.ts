@@ -69,27 +69,24 @@ const createUserMessage = (messageObj: iMsgObj, classNames: string = '') => {
 	msgContainer!.scrollTop = msgContainer!.scrollHeight;
 };
 
-const createSystemMessage = (message: string) => {
+const createSystemMessage = (content: string) => {
 	const li = document.createElement('li');
 	const strong = document.createElement('strong');
 
-	const fragment = findName(message);
-
-
+	// message is a document fragment containing the message in a <span> tag, if a nickname is found it's in an <em> tag
+	const message = findName(content);
 	strong.textContent = 'System: ';
 
 	li.appendChild(strong);
-	li.appendChild(fragment);
+	li.appendChild(message);
 
 	li.classList.add('system');
 	msgContainer!.appendChild(li);
 
-	console.log(findName(message));
-
 	msgContainer!.scrollTop = msgContainer!.scrollHeight;
 };
 
-// finds my custom <nickname> tag and returns a fragment with the nickname in an <em> tag and the rest of the message in a <span> tag
+// finds my custom <nickname> tag and returns a fragment with the nickname in an <em> tag and the rest of the message in a <span> tag, this way innerHTML doesn't have to be used so it's more secure
 const findName = (str: string) => {
 	const regex = /<nickname>(.*?)<\/nickname>/g;
 	const matches = str.match(regex);
