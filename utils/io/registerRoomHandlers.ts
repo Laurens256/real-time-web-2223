@@ -29,7 +29,7 @@ const registerRoomHandlers = (io: any, socket: any) => {
 
 			socket.broadcast
 				.to(room)
-				.emit('room:message:system', `${nickname} has joined the room`);
+				.emit('room:message:system', { user: nickname, msg: ' has joined the room' });
 
 			socket.emit('room:join:success', room);
 		} else {

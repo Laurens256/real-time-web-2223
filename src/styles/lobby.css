@@ -67,6 +67,11 @@
 	overflow-wrap: break-word;
 }
 
+.lobbyview aside section ul li.system strong {
+	color: var(--accent-color);
+}
+
+
 .lobbyview aside form {
 	--send-button-width: 3rem;
 	position: absolute;

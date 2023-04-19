@@ -24,11 +24,14 @@ const setNickname = () => {
 	return nickname;
 };
 
+interface iMsgObj {
+	user: string;
+	msg: string;
+}
+const msgContainer: HTMLUListElement | null = document.querySelector('.chat ul');
+const msgForm: HTMLFormElement | null = document.querySelector('.chat form');
+const msgInput: HTMLInputElement | null = document.querySelector('.chat form input');
 const initLobbyMsg = () => {
-	const msgContainer: HTMLUListElement | null = document.querySelector('.chat ul');
-	const msgForm: HTMLFormElement | null = document.querySelector('.chat form');
-	const msgInput: HTMLInputElement | null = document.querySelector('.chat form input');
-
 	if (msgContainer && msgForm && msgInput) {
 		msgForm.addEventListener('submit', (e) => {
 			e.preventDefault();
@@ -39,21 +42,52 @@ const initLobbyMsg = () => {
 			}
 		});
 
-		socket.on('room:msg', (messageObj: { user: string; msg: string }) => {
-			const { user, msg } = messageObj;
+		socket.on('room:msg', (messageObj: iMsgObj) => {
+			createUserMessage(messageObj);
+		});
 
-			const li = document.createElement('li');
-			const strong = document.createElement('strong');
-			const span = document.createElement('span');
-
-			strong.textContent = `${user}: `;
-			span.textContent = msg;
-
-			li.appendChild(strong);
-			li.appendChild(span);
-			msgContainer.appendChild(li);
-
-			msgContainer.scrollTop = msgContainer.scrollHeight;
+		socket.on('room:message:system', (messageObj: iMsgObj) => {
+			createSystemMessage(messageObj);
 		});
 	}
+};
+
+const createUserMessage = (messageObj: iMsgObj, classNames: string = '') => {
+	const { user, msg } = messageObj;
+
+	const li = document.createElement('li');
+	const strong = document.createElement('strong');
+	const span = document.createElement('span');
+
+	strong.textContent = `${user}: `;
+	span.textContent = msg;
+
+	li.appendChild(strong);
+	li.appendChild(span);
+	li.className = classNames;
+	msgContainer!.appendChild(li);
+
+	msgContainer!.scrollTop = msgContainer!.scrollHeight;
+};
+
+const createSystemMessage = (messageObj: iMsgObj) => {
+	const { user, msg } = messageObj;
+
+	const li = document.createElement('li');
+	const strong = document.createElement('strong');
+	const em = document.createElement('em');
+	const span = document.createElement('span');
+
+	strong.textContent = 'System: ';
+	em.textContent = user;
+	span.textContent = msg;
+
+	li.appendChild(strong);
+	li.appendChild(em);
+	li.appendChild(span);
+
+	li.classList.add('system');
+	msgContainer!.appendChild(li);
+
+	msgContainer!.scrollTop = msgContainer!.scrollHeight;
 };
