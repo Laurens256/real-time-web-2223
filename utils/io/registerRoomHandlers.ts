@@ -1,4 +1,5 @@
 import { createRoom, getCurrentUser, roomExists, userJoin } from '../manageRooms.js';
+import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 
 const registerRoomHandlers = (io: any, socket: any) => {
 	// create room
@@ -10,13 +11,25 @@ const registerRoomHandlers = (io: any, socket: any) => {
 	});
 
 	// join room
-	socket.on('room:join', (room: string) => {
+	socket.on('room:join', (data: { room: string; nickname: string }) => {
+		const room = data.room;
+		const nickname =
+			data.nickname ||
+			uniqueNamesGenerator({
+				dictionaries: [adjectives, animals],
+				length: 2,
+				style: 'capital',
+				separator: ' '
+			});
+
 		if (roomExists(room)) {
 			socket.join(room);
 
-			userJoin(room, { id: socket.id, name: 'bertus' });
+			userJoin(room, { id: socket.id, name: nickname });
 
-			socket.broadcast.to(room).emit('room:message:system', 'bertus has joined the room');
+			socket.broadcast
+				.to(room)
+				.emit('room:message:system', `${nickname} has joined the room`);
 
 			socket.emit('room:join:success', room);
 		} else {
@@ -28,12 +41,11 @@ const registerRoomHandlers = (io: any, socket: any) => {
 	socket.on('room:msg', (msg: string) => {
 		// TODO: dit normaal maken lol
 		const room = Array.from(socket.rooms)[1] as string;
-		
+
 		const user = getCurrentUser(room, socket.id).name;
 		console.log(user);
 
-
-		io.to(room).emit("room:msg", {user, msg});
+		io.to(room).emit('room:msg', { user, msg });
 	});
 };
 

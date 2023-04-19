@@ -15,14 +15,23 @@ const joinRoomInput: HTMLInputElement | null = document.querySelector('#join_inp
 
 const createRoom = (e: SubmitEvent) => {
 	e.preventDefault();
+	saveNickname('create');
 	socket.emit('room:create');
 };
 
 const joinRoom = (e: SubmitEvent) => {
 	e.preventDefault();
+	saveNickname('join');
 	window.location.href = `/rooms/${joinRoomInput?.value}`;
 };
 
 socket.on('room:create:success', (room: string) => {
 	window.location.href = `/rooms/${room}`;
 });
+
+const saveNickname = (target: 'join' | 'create') => {
+	const input: HTMLInputElement | null = document.querySelector(`#${target}_nickname_input`);
+	const nickname = input?.value || '';
+	
+	sessionStorage.setItem('nickname', nickname);
+};

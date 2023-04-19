@@ -1,19 +1,37 @@
-<section class="btn-section">
+<section class='btn-section'>
 	<a href='#create'>Create Room</a>
 	<a href='#join'>Join Room</a>
 </section>
 
 <section class='create-popup'>
-	<form action="/rooms/create" method="post">
+	<form action='/rooms/create' method='post'>
+
+		<label for='create_nickname_input'>Nickname</label>
+		<input
+			id='create_nickname_input'
+			name='nickname'
+			type='text'
+			autocomplete='off'
+			maxlength='20'
+		/>
 
 		<button type='submit'>Create</button>
 	</form>
 </section>
 
 <section class='join-popup'>
-	<form action='/rooms/join' method="post">
+	<form action='/rooms/join' method='post'>
 		<label for='join_input'>Enter the room code</label>
-		<input id='join_input' name="id" type='text' autocomplete="off" value="dsadsa" maxlength="6"/>
+		<input id='join_input' name='id' type='text' autocomplete='off' maxlength='6' />
+
+		<label for='join_nickname_input'>Nickname</label>
+		<input
+			id='join_nickname_input'
+			name='nickname'
+			type='text'
+			autocomplete='off'
+			maxlength='20'
+		/>
 
 		<button type='submit'>Join</button>
 	</form>
