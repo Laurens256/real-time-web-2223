@@ -5,8 +5,6 @@ const registerRoomHandlers = (io: any, socket: any) => {
 	// create room
 	socket.on('room:create', () => {
 		const room = createRoom();
-		socket.join(room);
-
 		socket.emit('room:create:success', room);
 	});
 
