@@ -11,7 +11,7 @@ import hbsHelpers from './utils/hbsHelpers.js';
 
 import routes from './routes/routes.js';
 
-import * as dotenv from 'dotenv';
+import dotenv from 'dotenv';
 dotenv.config();
 
 import { fileURLToPath } from 'url';
