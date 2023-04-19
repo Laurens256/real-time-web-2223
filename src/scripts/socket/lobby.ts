@@ -41,9 +41,18 @@ const initLobbyMsg = () => {
 
 		socket.on('room:msg', (messageObj: { user: string; msg: string }) => {
 			const { user, msg } = messageObj;
-			msgContainer.appendChild(
-				Object.assign(document.createElement('li'), { textContent: user + ': ' + msg })
-			);
+
+			const li = document.createElement('li');
+			const strong = document.createElement('strong');
+			const span = document.createElement('span');
+
+			strong.textContent = `${user}: `;
+			span.textContent = msg;
+
+			li.appendChild(strong);
+			li.appendChild(span);
+			msgContainer.appendChild(li);
+
 			msgContainer.scrollTop = msgContainer.scrollHeight;
 		});
 	}

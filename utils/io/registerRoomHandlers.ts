@@ -43,7 +43,6 @@ const registerRoomHandlers = (io: any, socket: any) => {
 		const room = Array.from(socket.rooms)[1] as string;
 
 		const user = getCurrentUser(room, socket.id).name;
-		console.log(user);
 
 		io.to(room).emit('room:msg', { user, msg });
 	});
