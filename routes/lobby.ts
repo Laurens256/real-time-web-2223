@@ -8,14 +8,20 @@ interface iReqWithParams extends Request {
 }
 
 router.get('/', async (req: iReqWithParams, res) => {
-	// if (roomExists(req.params.id)) {
+	if (roomExists(req.params.id)) {
 		return res.render('lobby', {
 			...res.locals,
 			room: req.params.id
 		});
-	// }
+	}
 
-	res.send('room bestaat niet');
+	res.render('error', {
+		...res.locals,
+		error: {
+			heading: 'Room not found',
+			message: 'The room you are looking for does not exist.'
+		}
+	});
 });
 
 export default router;
