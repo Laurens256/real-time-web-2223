@@ -20,7 +20,6 @@ const initLobby = () => {
 
 const setNickname = () => {
 	const nickname = sessionStorage.getItem('nickname') || '';
-	sessionStorage.removeItem('nickname');
 	return nickname;
 };
 
