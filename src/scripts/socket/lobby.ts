@@ -46,8 +46,8 @@ const initLobbyMsg = () => {
 			createUserMessage(messageObj);
 		});
 
-		socket.on('room:message:system', (messageObj: iMsgObj) => {
-			createSystemMessage(messageObj);
+		socket.on('room:message:system', (message: string) => {
+			createSystemMessage(message);
 		});
 	}
 };
@@ -70,24 +70,41 @@ const createUserMessage = (messageObj: iMsgObj, classNames: string = '') => {
 	msgContainer!.scrollTop = msgContainer!.scrollHeight;
 };
 
-const createSystemMessage = (messageObj: iMsgObj) => {
-	const { user, msg } = messageObj;
-
+const createSystemMessage = (message: string) => {
 	const li = document.createElement('li');
 	const strong = document.createElement('strong');
-	const em = document.createElement('em');
-	const span = document.createElement('span');
+
+	const fragment = findName(message);
+
 
 	strong.textContent = 'System: ';
-	em.textContent = user;
-	span.textContent = msg;
 
 	li.appendChild(strong);
-	li.appendChild(em);
-	li.appendChild(span);
+	li.appendChild(fragment);
 
 	li.classList.add('system');
 	msgContainer!.appendChild(li);
 
+	console.log(findName(message));
+
 	msgContainer!.scrollTop = msgContainer!.scrollHeight;
+};
+
+// finds my custom <nickname> tag and returns a fragment with the nickname in an <em> tag and the rest of the message in a <span> tag
+const findName = (str: string) => {
+	const regex = /<nickname>(.*?)<\/nickname>/g;
+	const matches = str.match(regex);
+	const fragment = document.createDocumentFragment();
+
+	if (matches) {
+		const em = document.createElement('em');
+		em.textContent = matches[0].replace(/<\/?nickname>/g, '');
+		fragment.appendChild(em);
+	}
+
+	const span = document.createElement('span');
+	span.textContent = str.replace(regex, '');
+	fragment.appendChild(span);
+
+	return fragment;
 };
