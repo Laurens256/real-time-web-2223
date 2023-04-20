@@ -8,7 +8,8 @@ interface iReqWithParams extends Request {
 }
 
 router.get('/', async (req: iReqWithParams, res) => {
-	if (req.params.id === 'create') {
+	// if the route is /rooms/create and the custom header 'create' is true, create a room
+	if (req.params.id === 'create' && req.headers.create === 'true') {
 		return res.send(createRoom());
 	} else if (roomExists(req.params.id)) {
 		return res.render('lobby', {

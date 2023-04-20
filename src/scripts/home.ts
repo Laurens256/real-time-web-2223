@@ -22,7 +22,13 @@ const init = () => {
 // get room code generated on server and join that room
 const createRoom = async (e: SubmitEvent) => {
 	e.preventDefault();
-	const room = await (await fetch('/rooms/create', {})).text();
+	const room = await (
+		await fetch('/rooms/create', {
+			headers: {
+				create: 'true'
+			}
+		})
+	).text();
 	saveNickname('create');
 	window.location.href = `/rooms/${room}`;
 };
@@ -56,9 +62,11 @@ const togglePopup = () => {
 
 // save nickname to session storage so it can be used in the room
 const saveNickname = (target: 'join' | 'create') => {
-	const input: HTMLInputElement | null = document.querySelector(`#${target}_nickname_input`);
+	const input: HTMLInputElement | null = document.querySelector(
+		`#${target}_nickname_input`
+	);
 	const nickname = input?.value || '';
-	
+
 	sessionStorage.setItem('nickname', nickname);
 };
 
