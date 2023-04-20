@@ -6,9 +6,7 @@
 const roomRegex = /^\/rooms\/[a-zA-Z0-9]{6}$/;
 (() => {
 	const path = window.location.pathname;
-	if (path === '/') {
-		initHome();
-	} else if (roomRegex.test(path)) {
+	if (roomRegex.test(path)) {
 		initLobby();
 	}
 })();

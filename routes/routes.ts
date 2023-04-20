@@ -5,7 +5,7 @@ import lobby from './lobby.js';
 const routes = [
 	{ path: '/rooms/:id', view: lobby, viewName: 'LobbyView' },
 	{ path: '/rooms', view: rooms, viewName: 'RoomView' },
-	{ path: '/', view: home, viewName: 'HomeView' },
+	{ path: '/', view: home, viewName: 'HomeView' }
 
 	// { path: '*', view: error, viewName: 'ErrorView' }
 ];
