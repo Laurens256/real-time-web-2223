@@ -34,13 +34,6 @@ const userLeave = (room: string, userId: string) => {
 	}
 };
 
-const getCurrentUser = (room: string, id: string) => {
-	if (room in rooms) {
-		return rooms[room].users.find((u) => u.id === id) || { name: 'unknown', id: 'unknown' };
-	}
-	return { name: 'unknown', id: 'unknown' }
-};
-
 const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 const charactersLength = characters.length;
 const generateRoomId = (): string => {
@@ -55,4 +48,4 @@ const generateRoomId = (): string => {
 	return result;
 };
 
-export { createRoom, roomExists, userJoin, userLeave, getCurrentUser };
+export { createRoom, roomExists, userJoin, userLeave };

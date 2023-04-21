@@ -1,13 +1,7 @@
-import { createRoom, getCurrentUser, roomExists, userJoin } from '../manageRooms.js';
+import { roomExists, userJoin } from '../manageRooms.js';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 
 const registerRoomHandlers = (io: any, socket: any) => {
-	// create room
-	socket.on('room:create', () => {
-		const room = createRoom();
-		socket.emit('room:create:success', room);
-	});
-
 	// join room
 	socket.on('room:join', (data: { room: string; nickname: string }) => {
 		const room = data.room;
@@ -20,6 +14,10 @@ const registerRoomHandlers = (io: any, socket: any) => {
 				separator: ' '
 			});
 
+		// save the current room and nickname to the socket
+		socket.room = room;
+		socket.nickname = nickname;
+
 		if (roomExists(room)) {
 			socket.join(room);
 
@@ -27,7 +25,10 @@ const registerRoomHandlers = (io: any, socket: any) => {
 
 			socket.broadcast
 				.to(room)
-				.emit('room:message:system', `<nickname>${nickname}</nickname> has joined the <nickname>${nickname}</nickname> room`);
+				.emit(
+					'room:message:system',
+					`<nickname>${nickname}</nickname> has joined the room`
+				);
 
 			socket.emit('room:join:success', room);
 		} else {
@@ -37,10 +38,8 @@ const registerRoomHandlers = (io: any, socket: any) => {
 
 	// send message to room
 	socket.on('room:msg', (msg: string) => {
-		// TODO: dit normaal maken lol
-		const room = Array.from(socket.rooms)[1] as string;
-
-		const user = getCurrentUser(room, socket.id).name;
+		const room = socket.room;
+		const user = socket.nickname;
 
 		io.to(room).emit('room:msg', { user, msg });
 	});
