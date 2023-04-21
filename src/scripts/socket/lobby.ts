@@ -73,7 +73,7 @@ const createSystemMessage = (content: string) => {
 	const li = document.createElement('li');
 	const strong = document.createElement('strong');
 
-	// message is a document fragment containing the message in a <span> tag, if a nickname is found it's in an <em> tag
+	// message is a <span> tag containing any found nicknames inside an <em> tag
 	const message = findName(content);
 	strong.textContent = 'System: ';
 
