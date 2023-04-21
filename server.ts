@@ -21,6 +21,7 @@ import { setMeta } from './middleware/meta.js';
 
 // socket.io
 import { registerRoomHandlers } from './utils/io/registerRoomHandlers.js';
+import { registerGeneralHandlers } from './utils/io/generalHandlers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -58,6 +59,7 @@ routes.forEach((route) => {
 
 // socket.io
 io.on('connect', (socket) => {
+	registerGeneralHandlers(io, socket);
 	registerRoomHandlers(io, socket);
 });
 

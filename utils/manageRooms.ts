@@ -18,7 +18,11 @@ const roomExists = (room: string) => {
 	return rooms[room] ? true : false;
 };
 
-const destroyRoom = (room: string) => {};
+const destroyRoom = (room: string) => {
+	if (room in rooms) {
+		delete rooms[room];
+	}
+};
 
 const userJoin = (room: string, user: { id: string; name: string }) => {
 	if (room in rooms) {
@@ -31,6 +35,10 @@ const userLeave = (room: string, userId: string) => {
 		rooms[room].users = rooms[room].users.filter(
 			(u) => u.id !== userId
 		);
+
+		if (rooms[room].users.length === 0) {
+			destroyRoom(room);
+		}
 	}
 };
 
