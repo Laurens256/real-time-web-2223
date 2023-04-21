@@ -5,10 +5,38 @@ Pakkend verhaaltje hier nog
 ## Table of Contents
 
 - [Week 1](#week-1)
+- [Installation](#installation)
 
 ## Week 1
 
 In week 1, we started by creating a basic chat-app using the [socket.io library](https://www.npmjs.com/package/socket.io). Using this library, we were able to create a chatroom where multiple users could join and chat with each other.
+
+Building upon this basic socket.io application, I decided to make a web-application where users can create and join rooms to play a game / games together. Currently, I'm not sure what kind of game I want to make, but I'm thinking of something like connect 4 or other board / party games. Inside this game room, users will be able to chat with each other, and play the game together. The game will be played in real-time, so all users will be able to see the game state change as it happens.
+
+Below is some of the client side code for sending messages to the server, and receiving messages from the server.
+
+```ts
+const initLobbyMsg = () => {
+	if (msgContainer && msgForm && msgInput) {
+		msgForm.addEventListener('submit', (e) => {
+			e.preventDefault();
+
+			if (msgInput.value) {
+				socket.emit('room:msg', msgInput.value);
+				msgInput.value = '';
+			}
+		});
+
+		socket.on('room:msg', (messageObj: iMsgObj) => {
+			createUserMessage(messageObj);
+		});
+
+		socket.on('room:message:system', (message: string) => {
+			createSystemMessage(message);
+		});
+	}
+};
+```
 
 ## Installation
 

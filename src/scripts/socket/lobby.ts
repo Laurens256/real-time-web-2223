@@ -7,11 +7,11 @@ const initLobby = () => {
 	});
 
 	socket.on('room:join:error', (error: string) => {
-		console.log(error);
+		// console.log(error);
 	});
 
 	socket.on('room:message:system', (message: string) => {
-		console.log(message);
+		// console.log(message);
 	});
 
 	setNickname();
@@ -86,21 +86,40 @@ const createSystemMessage = (content: string) => {
 	msgContainer!.scrollTop = msgContainer!.scrollHeight;
 };
 
-// finds my custom <nickname> tag and returns a fragment with the nickname in an <em> tag and the rest of the message in a <span> tag, this way innerHTML doesn't have to be used so it's more secure
+// finds my custom <nickname> tag and returns a span with the message, if my custom tag is found, it's placed into an <em> tag and inserted into  the right place in the string
 const findName = (str: string) => {
 	const regex = /<nickname>(.*?)<\/nickname>/g;
 	const matches = str.match(regex);
-	const fragment = document.createDocumentFragment();
-
-	if (matches) {
-		const em = document.createElement('em');
-		em.textContent = matches[0].replace(/<\/?nickname>/g, '');
-		fragment.appendChild(em);
-	}
 
 	const span = document.createElement('span');
-	span.textContent = str.replace(regex, '');
-	fragment.appendChild(span);
 
-	return fragment;
+	if (matches) {
+		matches.forEach((match, i) => {
+			const index = str.indexOf(match);
+
+			// add text before the match to a textnode
+			const textNode = document.createTextNode(str.substring(0, index));
+
+			// add match to an em tag
+			const em = document.createElement('em');
+			em.textContent = match.replace(/<\/?nickname>/g, '');
+
+			span.append(textNode, em);
+
+			// add text after the last match to a textnode
+			if (i + 1 === matches.length) {
+				const textNodeAfter = document.createTextNode(
+					str.substring(index + match.length)
+				);
+				span.appendChild(textNodeAfter);
+			}
+
+			// remove the match from the string so it doesn't get used again in the next iteration
+			str = str.replace(match, '');
+		});
+	} else {
+		span.textContent = str;
+	}
+
+	return span;
 };
