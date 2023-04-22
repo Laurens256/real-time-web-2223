@@ -1,9 +1,11 @@
+let nickName = '';
 const initLobby = () => {
 	const roomCode = window.location.pathname.split('/')[2];
 	socket.emit('room:join', { room: roomCode, nickname: setNickname() });
 
-	socket.on('room:join:success', (room: string) => {
+	socket.on('room:join:success', (room: string, user: string) => {
 		console.log('Joined room: ' + room);
+		nickName = user;
 	});
 
 	socket.on('room:join:error', (error: string) => {
@@ -19,19 +21,24 @@ const initLobby = () => {
 };
 
 const setNickname = () => {
-	const nickname = sessionStorage.getItem('nickname') || '';
-	return nickname;
+	const tempNickname = sessionStorage.getItem('nickname') || '';
+	return tempNickname;
 };
 
 interface iMsgObj {
 	user: string;
 	msg: string;
 }
+
 const msgContainer: HTMLUListElement | null = document.querySelector('.chat ul');
 const msgForm: HTMLFormElement | null = document.querySelector('.chat form');
 const msgInput: HTMLInputElement | null = document.querySelector('.chat form input');
+
+// ... is typing message
+const isTypingUsers: HTMLElement | null = document.querySelector('.chat > small strong');
+const isTypingMessage: HTMLElement | null = document.querySelector('.chat > small span');
 const initLobbyMsg = () => {
-	if (msgContainer && msgForm && msgInput) {
+	if (msgContainer && msgForm && msgInput && isTypingUsers && isTypingMessage) {
 		msgForm.addEventListener('submit', (e) => {
 			e.preventDefault();
 
@@ -39,6 +46,14 @@ const initLobbyMsg = () => {
 				socket.emit('room:msg', msgInput.value);
 				msgInput.value = '';
 			}
+		});
+
+		msgInput.addEventListener('keypress', () => {
+			socket.emit('room:typing:start');
+		});
+
+		socket.on('room:typing', (users: string[]) => {
+			createIsTypingMessage(users);
 		});
 
 		socket.on('room:msg', (messageObj: iMsgObj) => {
@@ -122,4 +137,21 @@ const findName = (str: string) => {
 	}
 
 	return span;
+};
+
+const checkIfTyping = () => {};
+
+const createIsTypingMessage = (users: string[]) => {
+	let usersString = '';
+	users = users.filter((user) => user !== nickName);
+	console.log(users, nickName);
+
+	if (users.length > 1) {
+		usersString = 'Several people';
+	} else {
+		usersString = `${users.join(', ')}`;
+	}
+
+	isTypingUsers!.textContent = usersString;
+	isTypingMessage!.textContent = users.length > 1 ? ' are typing...' : ' is typing...';
 };

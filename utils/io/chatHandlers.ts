@@ -2,9 +2,12 @@ import { roomExists, userJoin, userLeave } from '../manageRooms.js';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 
 const chatHandlers = (io: any, socket: any) => {
+	let room = '';
+	let user = '';
+
 	socket.on('room:join', (data: { room: string; nickname: string }) => {
-		const room = data.room;
-		const nickname =
+		room = data.room;
+		user =
 			data.nickname ||
 			uniqueNamesGenerator({
 				dictionaries: [adjectives, animals],
@@ -15,37 +18,36 @@ const chatHandlers = (io: any, socket: any) => {
 
 		// save the current room and nickname to the socket
 		socket.room = room;
-		socket.nickname = nickname;
+		socket.user = user;
 
 		if (roomExists(room)) {
 			socket.join(room);
 
-			userJoin(room, { id: socket.id, name: nickname });
+			userJoin(room, { id: socket.id, name: user });
 
 			socket.broadcast
 				.to(room)
-				.emit(
-					'room:message:system',
-					`<nickname>${nickname}</nickname> has joined the room`
-				);
+				.emit('room:message:system', `<nickname>${user}</nickname> has joined the room`);
 
-			socket.emit('room:join:success', room);
+			socket.emit('room:join:success', room, user);
 		} else {
 			socket.emit('room:join:error', 'Room does not exist');
 		}
 	});
 
-	socket.on('room:msg', (msg: string) => {
-		const room = socket.room;
-		const user = socket.nickname;
+	socket.on('room:typing:start', () => {
+		socket.broadcast.to(room).emit('room:typing', getCurrentTyping(room, user, 'add'));
+	});
 
+	socket.on('room:typing:stop', () => {
+		socket.broadcast.to(room).emit('room:typing', getCurrentTyping(room, user, 'remove'));
+	});
+
+	socket.on('room:msg', (msg: string) => {
 		io.to(room).emit('room:msg', { user, msg });
 	});
 
 	socket.on('disconnect', () => {
-		const room = socket.room;
-		const user = socket.nickname;
-
 		userLeave(room, socket.id);
 
 		io.to(room).emit(
@@ -53,6 +55,31 @@ const chatHandlers = (io: any, socket: any) => {
 			`<nickname>${user}</nickname> has left the room`
 		);
 	});
+};
+
+const currentlyTyping: { [room: string]: Set<string> } = {};
+
+const getCurrentTyping = (
+	room: string,
+	user: string,
+	action: 'add' | 'remove' | 'check'
+) => {
+	if (action !== 'check') {
+		setCurrentTyping(room, user, action);
+	}
+	return currentlyTyping[room] ? Array.from(currentlyTyping[room]) : [];
+};
+
+const setCurrentTyping = (room: string, user: string, action: 'add' | 'remove') => {
+	if (!currentlyTyping[room]) {
+		currentlyTyping[room] = new Set();
+	}
+
+	if (action === 'add') {
+		currentlyTyping[room].add(user);
+	} else if (action === 'remove') {
+		currentlyTyping[room].delete(user);
+	}
 };
 
 export { chatHandlers };
