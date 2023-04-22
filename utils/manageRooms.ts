@@ -42,7 +42,7 @@ const userLeave = (room: string, userId: string) => {
 	}
 };
 
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+const characters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
 const charactersLength = characters.length;
 const generateRoomId = (): string => {
 	let result: string;

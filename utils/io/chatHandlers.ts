@@ -1,8 +1,7 @@
-import { roomExists, userJoin } from '../manageRooms.js';
+import { roomExists, userJoin, userLeave } from '../manageRooms.js';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 
-const registerRoomHandlers = (io: any, socket: any) => {
-	// join room
+const chatHandlers = (io: any, socket: any) => {
 	socket.on('room:join', (data: { room: string; nickname: string }) => {
 		const room = data.room;
 		const nickname =
@@ -36,13 +35,24 @@ const registerRoomHandlers = (io: any, socket: any) => {
 		}
 	});
 
-	// send message to room
 	socket.on('room:msg', (msg: string) => {
 		const room = socket.room;
 		const user = socket.nickname;
 
 		io.to(room).emit('room:msg', { user, msg });
 	});
+
+	socket.on('disconnect', () => {
+		const room = socket.room;
+		const user = socket.nickname;
+
+		userLeave(room, socket.id);
+
+		io.to(room).emit(
+			'room:message:system',
+			`<nickname>${user}</nickname> has left the room`
+		);
+	});
 };
 
-export { registerRoomHandlers };
+export { chatHandlers };

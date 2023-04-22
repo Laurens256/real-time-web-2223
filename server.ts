@@ -20,8 +20,7 @@ import { fileURLToPath } from 'url';
 import { setMeta } from './middleware/meta.js';
 
 // socket.io
-import { registerRoomHandlers } from './utils/io/registerRoomHandlers.js';
-import { registerGeneralHandlers } from './utils/io/generalHandlers.js';
+import { chatHandlers } from './utils/io/chatHandlers.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -59,8 +58,7 @@ routes.forEach((route) => {
 
 // socket.io
 io.on('connect', (socket) => {
-	registerGeneralHandlers(io, socket);
-	registerRoomHandlers(io, socket);
+	chatHandlers(io, socket);
 });
 
 const port = process.env.PORT || 3000;
