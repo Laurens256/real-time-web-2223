@@ -49,7 +49,7 @@ const initLobbyMsg = () => {
 		});
 
 		msgInput.addEventListener('keypress', () => {
-			socket.emit('room:typing:start');
+			checkIfTyping(socket);
 		});
 
 		socket.on('room:typing', (users: string[]) => {
@@ -139,7 +139,15 @@ const findName = (str: string) => {
 	return span;
 };
 
-const checkIfTyping = () => {};
+let typingTimer: ReturnType<typeof setTimeout>;
+const checkIfTyping = (socket: any) => {
+	clearTimeout(typingTimer);
+
+	typingTimer = setTimeout(() => {
+		socket.emit('room:typing:start');
+	}, 1500);
+	socket.emit('room:typing:stop');
+};
 
 const createIsTypingMessage = (users: string[]) => {
 	let usersString = '';
