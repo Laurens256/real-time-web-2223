@@ -10,42 +10,49 @@
 }
 
 .homeview section.btn-section {
-	--horizontal-padding: 1rem;
+	--padding: 1rem;
+	--button-width: 40%;
 	margin-top: 2rem;
 	box-sizing: content-box;
 	display: flex;
-	width: calc(var(--column-width) - var(--horizontal-padding) * 2);
+	flex-wrap: wrap;
+	width: calc(var(--column-width) - var(--padding) * 2);
 	justify-content: center;
 	align-items: center;
-	gap: 2rem;
+	gap: var(--padding);
 	height: fit-content;
 	padding: 1rem;
 	background-color: #fff;
 	border-radius: 1rem;
 	position: relative;
+	height: 3rem;
 }
 
-.homeview section.btn-section button {
-	border: solid 2px var(--accent-color);
-	padding: 1rem;
-	width: 12rem;
-	height: 3rem;
-	text-align: center;
-	border-radius: 5px;
-	background-color: transparent;
-	border: none;
+.homeview section.btn-section::after {
+	content: '';
+	position: absolute;
+	width: var(--button-width);
+	height: calc(100% - var(--padding) * 2);
+	background-color: red;
+	left: calc(50% - var(--button-width) - var(--padding) / 8);
+	border-radius: .8rem;
 	transition: all 0.2s ease-in-out;
 }
 
-.homeview section.btn-section button:hover,
-.homeview section.btn-section button:focus-visible {
-	/* background-color: var(--accent-color); */
-	color: red;
+.homeview section.btn-section[data-action='join']::after {
+	left: calc(50% + var(--padding) / 8);
 }
 
-.homeview section.btn-section[data-action='create'] button:first-of-type,
-.homeview section.btn-section[data-action='join'] button:last-of-type {
-	background-color: blue;
+.homeview section.btn-section button {
+	border: none;
+	width: var(--button-width);
+	height: 100%;
+	text-align: center;
+	border-radius: 5px;
+	background-color: transparent;
+	transition: all 0.2s ease-in-out;
+	position: relative;
+	z-index: 1;
 }
 
 /* ----------------------------- */
