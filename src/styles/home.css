@@ -1,10 +1,9 @@
 .homeview {
-	--column-width: min(95%, 500px);
+	--column-width: min(95%, 400px);
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	/* margin-top: 25vh; */
 	gap: 1rem;
 	min-height: 100vh;
 }
@@ -15,12 +14,10 @@
 	margin-top: 2rem;
 	box-sizing: content-box;
 	display: flex;
-	flex-wrap: wrap;
 	width: calc(var(--column-width) - var(--padding) * 2);
 	justify-content: center;
 	align-items: center;
 	gap: var(--padding);
-	height: fit-content;
 	padding: 1rem;
 	background-color: #fff;
 	border-radius: 1rem;
@@ -56,7 +53,7 @@
 }
 
 /* ----------------------------- */
-/* -- join / create formstyle -- */
+/* ----=---- formstyle --------- */
 /* ----------------------------- */
 .homeview .start-form {
 	width: var(--column-width);
@@ -64,17 +61,57 @@
 	padding: 1.5rem;
 	border-radius: 1rem;
 	height: 20rem;
+	display: flex;
+	flex-direction: column;
 }
 
+.homeview .start-form form {
+	/* display: flex;
+	flex-direction: column;
+	height: 100%; */
+
+	display: grid;
+	grid-template-rows: min-content min-content 1fr;
+	gap: 1.5rem;
+	height: 100%;
+}
+
+/* zorgt ervoor dat form fields verdwijnen als ze niet ingevuld kunnen worden */
 .homeview .start-form[data-action='create'] div:not([data-action~='create']),
 .homeview .start-form[data-action='join'] div:not([data-action~='join']) {
 	display: none;
 }
 
 .homeview .start-form[data-action='create'] button[type='submit']::before {
-	content: 'create';
+	content: 'CREATE';
 }
 
 .homeview .start-form[data-action='join'] button[type='submit']::before {
-	content: 'join';
+	content: 'JOIN';
+}
+
+.homeview .start-form div {
+	display: flex;
+	flex-direction: column;
+	gap: .2rem;
+}
+
+.homeview .start-form div label {
+	font-size: 1.2rem;
+}
+
+.homeview .start-form div input[type="text"] {
+	font-size: 1.3rem;
+	padding: .5rem;
+}
+
+.homeview .start-form button[type="submit"] {
+	place-self: end;
+	width: 40%;
+	margin: 0 auto;
+	font-size: 1.2rem;
+	height: 2.5rem;
+	border-radius: 2rem;
+	border: none;
+	grid-row: auto / -1;
 }
