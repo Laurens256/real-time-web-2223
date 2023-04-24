@@ -4,8 +4,19 @@ Pakkend verhaaltje hier nog
 
 ## Table of Contents
 
+- [Features](#features)
 - [Week 1](#week-1)
 - [Installation](#installation)
+
+## Features
+
+|        Feature        | Status |
+| :-------------------: | :----: |
+|   Chat in realtime    |  [x]   |
+|   Custom usernames    |  [x]   |
+|    Seperate rooms     |  [x]   |
+| Create and join rooms |  [x]   |
+| Play game(s) in rooms |  [ ]   |
 
 ## Week 1
 
@@ -17,26 +28,26 @@ Below is some of the client side code for sending messages to the server, and re
 
 ```ts
 const initLobbyMsg = () => {
-	if (msgContainer && msgForm && msgInput) {
-		msgForm.addEventListener('submit', (e) => {
-			e.preventDefault();
+	msgForm.addEventListener('submit', (e) => {
+		e.preventDefault();
 
-			if (msgInput.value) {
-				socket.emit('room:msg', msgInput.value);
-				msgInput.value = '';
-			}
-		});
+		if (msgInput.value) {
+			socket.emit('room:msg', msgInput.value);
+			msgInput.value = '';
+		}
+	});
 
-		socket.on('room:msg', (messageObj: iMsgObj) => {
-			createUserMessage(messageObj);
-		});
-
-		socket.on('room:message:system', (message: string) => {
-			createSystemMessage(message);
-		});
-	}
+	socket.on('room:msg', (messageObj: iMsgObj) => {
+		createUserMessage(messageObj);
+	});
 };
 ```
+
+In week 1, most of my time was spent developing the technical aspects of the website. In the coming weeks, I want to spend more time on the frontend / styling of the application. This is what the rooms page currently looks like.
+
+<p align="center">
+	<img src="./docs/img/week_1.png" alt="game room">
+</p>
 
 ## Installation
 
@@ -70,30 +81,12 @@ $ npm run dev
 http://localhost:3000/
 ```
 
-<!-- Here are some hints for your projects Readme.md! -->
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 <!-- Start out with a title and a description -->
 
 <!-- Add a nice image here at the end of the week, showing off your shiny frontend 📸 -->
 
-<!-- Add a link to your live demo in Github Pages 🌐-->
-
-<!-- replace the code in the /docs folder with your own, so you can showcase your work with GitHub Pages 🌍 -->
-
-<!-- Maybe a table of contents here? 📚 -->
-
-<!-- ☝️ replace this description with a description of your own work -->
-
-<!-- How about a section that describes how to install this project? 🤓 -->
-
-<!-- ...but how does one use this project? What are its features 🤔 -->
-
-<!-- What external data source is featured in your project and what are its properties 🌠 -->
-
 <!-- This would be a good place for your data life cycle ♻️-->
-
-<!-- Maybe a checklist of done stuff and stuff still on your wishlist? ✅ -->
-
-<!-- We all stand on the shoulders of giants, please link all the sources you used in to create this project. -->
-
-<!-- How about a license here? When in doubt use MIT. 📜  -->
