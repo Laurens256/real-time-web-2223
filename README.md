@@ -12,11 +12,11 @@ Pakkend verhaaltje hier nog
 
 |        Feature        | Status |
 | :-------------------: | :----: |
-|   Chat in realtime    |  [x]   |
-|   Custom usernames    |  [x]   |
-|    Seperate rooms     |  [x]   |
-| Create and join rooms |  [x]   |
-| Play game(s) in rooms |  [ ]   |
+|   Chat in realtime    |   ✅   |
+|   Custom usernames    |   ✅   |
+|    Seperate rooms     |   ✅   |
+| Create and join rooms |   ✅   |
+| Play game(s) in rooms |   🚧   |
 
 ## Week 1
 
