@@ -34,7 +34,7 @@
 	border-radius: 5px;
 	background-color: transparent;
 	border: none;
-	transition: all .2s ease-in-out;
+	transition: all 0.2s ease-in-out;
 }
 
 .homeview section.btn-section button:hover,
@@ -43,8 +43,8 @@
 	color: red;
 }
 
-.homeview section.btn-section[data-action="create"] button:first-of-type,
-.homeview section.btn-section[data-action="join"] button:last-of-type {
+.homeview section.btn-section[data-action='create'] button:first-of-type,
+.homeview section.btn-section[data-action='join'] button:last-of-type {
 	background-color: blue;
 }
 
@@ -59,7 +59,15 @@
 	height: 20rem;
 }
 
-.homeview .start-form[data-action="create"] form[action="/rooms/join"],
-.homeview .start-form[data-action="join"] form[action="/rooms/create"] {
+.homeview .start-form[data-action='create'] div:not([data-action~='create']),
+.homeview .start-form[data-action='join'] div:not([data-action~='join']) {
 	display: none;
+}
+
+.homeview .start-form[data-action='create'] button[type='submit']::before {
+	content: 'create';
+}
+
+.homeview .start-form[data-action='join'] button[type='submit']::before {
+	content: 'join';
 }

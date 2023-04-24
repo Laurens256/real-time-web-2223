@@ -4,32 +4,24 @@
 </section>
 
 <section class='start-form'>
-	<form action='/rooms/create' method='post'>
-		<label for='create_nickname_input'>Nickname</label>
-		<input
-			id='create_nickname_input'
-			name='nickname'
-			type='text'
-			autocomplete='off'
-			maxlength='20'
-		/>
 
-		<button type='submit'>Create</button>
-	</form>
+	<form action='/rooms' method='post'>
+		<div data-action='join'>
+			<label for='join_input'>Enter the room code</label>
+			<input id='join_input' name='id' type='text' autocomplete='off' maxlength='6' />
+		</div>
 
-	<form action='/rooms/join' method='post'>
-		<label for='join_input'>Enter the room code</label>
-		<input id='join_input' name='id' type='text' autocomplete='off' maxlength='6' />
+		<div data-action='join create'>
+			<label for='nickname_input'>Nickname</label>
+			<input
+				id='nickname_input'
+				name='nickname'
+				type='text'
+				autocomplete='off'
+				maxlength='20'
+			/>
+		</div>
 
-		<label for='join_nickname_input'>Nickname</label>
-		<input
-			id='join_nickname_input'
-			name='nickname'
-			type='text'
-			autocomplete='off'
-			maxlength='20'
-		/>
-
-		<button type='submit'>Join</button>
+		<button type='submit' aria-label='enter room'></button>
 	</form>
 </section>

@@ -36,6 +36,7 @@
 	--is-typing-bottom: 0.5rem;
 	position: fixed;
 	inset: 2rem 2rem 2rem auto;
+	border-radius: 1rem;
 	padding: 1rem;
 	width: var(--chat-width);
 	background-color: var(--bg-color-secondary);
@@ -110,7 +111,7 @@
 	top: var(--form-padding);
 	right: var(--form-padding);
 	border: none;
-	border-radius: 0 .5rem .5rem 0;
+	border-radius: .5rem;
 	background-color: var(--accent-color);
 	border: solid 1px var(--accent-color);
 	border-left: none;

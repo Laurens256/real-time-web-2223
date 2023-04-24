@@ -3,13 +3,9 @@ const formContainer: HTMLElement | null = document.querySelector('.start-form');
 const joinRoomInput: HTMLInputElement | null = document.querySelector('#join_input');
 
 const init = () => {
-	const createRoomForm: HTMLFormElement | null = document.querySelector(
-		'form[action="/rooms/create"]'
-	);
+	const roomForm: HTMLElement | null = document.querySelector('form[action="/rooms"]');
 
-	const joinRoomForm: HTMLFormElement | null = document.querySelector(
-		'form[action="/rooms/join"]'
-	);
+	roomForm?.addEventListener('submit', handleFormSubmit);
 
 	const toggleButtons: NodeListOf<HTMLButtonElement> =
 		document.querySelectorAll('.btn-section button');
@@ -17,34 +13,31 @@ const init = () => {
 	// remove old nickname
 	sessionStorage.removeItem('nickname');
 
-	createRoomForm?.addEventListener('submit', createRoom);
-	joinRoomForm?.addEventListener('submit', joinRoom);
-
 	toggleButtons.forEach((button) => {
 		button.addEventListener('click', toggleFormAction);
 	});
 	toggleButtons[0]?.click();
 };
 
-// get room code generated on server and join that room
-const createRoom = async (e: SubmitEvent) => {
+const handleFormSubmit = async (e: SubmitEvent) => {
 	e.preventDefault();
-	const room = await (
-		await fetch('/rooms/create', {
-			headers: {
-				create: 'true'
-			}
-		})
-	).text();
-	saveNickname('create');
-	window.location.href = `/rooms/${room}`;
-};
+	saveNickname();
 
-// get room code from input and join that room
-const joinRoom = (e: SubmitEvent) => {
-	e.preventDefault();
-	saveNickname('join');
-	window.location.href = `/rooms/${joinRoomInput?.value}`;
+	const action = formContainer!.getAttribute('data-action') || 'create';
+
+	let room = '';
+	if (action === 'create') {
+		room = await (
+			await fetch('/rooms/create', {
+				headers: {
+					create: 'true'
+				}
+			})
+		).text();
+	} else {
+		room = joinRoomInput?.value || '';
+	}
+	window.location.href = `/rooms/${room}`;
 };
 
 const toggleFormAction = (e: MouseEvent) => {
@@ -58,10 +51,8 @@ const toggleFormAction = (e: MouseEvent) => {
 };
 
 // save nickname to session storage so it can be used in the room
-const saveNickname = (target: 'join' | 'create') => {
-	const input: HTMLInputElement | null = document.querySelector(
-		`#${target}_nickname_input`
-	);
+const saveNickname = () => {
+	const input: HTMLInputElement | null = document.querySelector(`#nickname_input`);
 	const nickname = input?.value || '';
 
 	sessionStorage.setItem('nickname', nickname);

@@ -36,6 +36,7 @@ const initLobbyMsg = () => {
 
 			if (msgInput.value) {
 				socket.emit('room:msg', msgInput.value);
+				socket.emit('room:typing:stop');
 				msgInput.value = '';
 			}
 		});
