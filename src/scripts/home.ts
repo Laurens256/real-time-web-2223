@@ -1,3 +1,5 @@
+const actionButtonSection: HTMLElement | null = document.querySelector('.btn-section');
+const formContainer: HTMLElement | null = document.querySelector('.start-form');
 const joinRoomInput: HTMLInputElement | null = document.querySelector('#join_input');
 
 const init = () => {
@@ -9,14 +11,19 @@ const init = () => {
 		'form[action="/rooms/join"]'
 	);
 
+	const toggleButtons: NodeListOf<HTMLButtonElement> =
+		document.querySelectorAll('.btn-section button');
+
 	// remove old nickname
 	sessionStorage.removeItem('nickname');
 
 	createRoomForm?.addEventListener('submit', createRoom);
 	joinRoomForm?.addEventListener('submit', joinRoom);
 
-	window.addEventListener('hashchange', togglePopup);
-	window.dispatchEvent(new Event('hashchange'));
+	toggleButtons.forEach((button) => {
+		button.addEventListener('click', toggleFormAction);
+	});
+	toggleButtons[0]?.click();
 };
 
 // get room code generated on server and join that room
@@ -40,24 +47,14 @@ const joinRoom = (e: SubmitEvent) => {
 	window.location.href = `/rooms/${joinRoomInput?.value}`;
 };
 
-// function for managing popups
-let currentPopup: HTMLElement | null = null;
-const togglePopup = () => {
-	const hash = window.location.hash;
-	// remove hash icon from query
-	const newPopup: HTMLElement | null = document.querySelector(
-		`.${hash.substring(1)}-popup`
-	);
+const toggleFormAction = (e: MouseEvent) => {
+	const button = e.currentTarget;
+	if (!button || !(button instanceof HTMLButtonElement)) return;
 
-	// hide current popup
-	currentPopup?.classList.remove('active');
-	currentPopup = null;
+	const action = button.getAttribute('data-action') || 'create';
 
-	// show new popup
-	if (newPopup) {
-		currentPopup = newPopup;
-		newPopup.classList.add('active');
-	}
+	actionButtonSection?.setAttribute('data-action', action);
+	formContainer?.setAttribute('data-action', action);
 };
 
 // save nickname to session storage so it can be used in the room
