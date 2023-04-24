@@ -8,14 +8,6 @@ const initLobby = () => {
 		nickName = user;
 	});
 
-	socket.on('room:join:error', (error: string) => {
-		// console.log(error);
-	});
-
-	socket.on('room:message:system', (message: string) => {
-		// console.log(message);
-	});
-
 	setNickname();
 	initLobbyMsg();
 };
@@ -144,22 +136,22 @@ const checkIfTyping = (socket: any) => {
 	clearTimeout(typingTimer);
 
 	typingTimer = setTimeout(() => {
-		socket.emit('room:typing:start');
+		socket.emit('room:typing:stop');
 	}, 1500);
-	socket.emit('room:typing:stop');
+	socket.emit('room:typing:start');
 };
 
 const createIsTypingMessage = (users: string[]) => {
-	let usersString = '';
 	users = users.filter((user) => user !== nickName);
-	console.log(users, nickName);
 
-	if (users.length > 1) {
-		usersString = 'Several people';
+	if (users.length === 0) {
+		isTypingUsers!.textContent = '';
+		isTypingMessage!.textContent = '';
+	} else if (users.length > 1) {
+		isTypingUsers!.textContent = 'Several people';
+		isTypingMessage!.textContent = ' are typing';
 	} else {
-		usersString = `${users.join(', ')}`;
+		isTypingUsers!.textContent = `${users.join(', ')}`;
+		isTypingMessage!.textContent = ' is typing';
 	}
-
-	isTypingUsers!.textContent = usersString;
-	isTypingMessage!.textContent = users.length > 1 ? ' are typing...' : ' is typing...';
 };

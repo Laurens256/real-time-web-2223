@@ -1,5 +1,6 @@
 import { roomExists, userJoin, userLeave } from '../manageRooms.js';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
+import { getCurrentTyping } from './ioUtils/currentlyTyping.js';
 
 const chatHandlers = (io: any, socket: any) => {
 	let room = '';
@@ -55,31 +56,6 @@ const chatHandlers = (io: any, socket: any) => {
 			`<nickname>${user}</nickname> has left the room`
 		);
 	});
-};
-
-const currentlyTyping: { [room: string]: Set<string> } = {};
-
-const getCurrentTyping = (
-	room: string,
-	user: string,
-	action: 'add' | 'remove' | 'check'
-) => {
-	if (action !== 'check') {
-		setCurrentTyping(room, user, action);
-	}
-	return currentlyTyping[room] ? Array.from(currentlyTyping[room]) : [];
-};
-
-const setCurrentTyping = (room: string, user: string, action: 'add' | 'remove') => {
-	if (!currentlyTyping[room]) {
-		currentlyTyping[room] = new Set();
-	}
-
-	if (action === 'add') {
-		currentlyTyping[room].add(user);
-	} else if (action === 'remove') {
-		currentlyTyping[room].delete(user);
-	}
 };
 
 export { chatHandlers };
