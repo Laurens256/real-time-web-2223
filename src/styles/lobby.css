@@ -79,6 +79,21 @@
 	position: fixed;
 	top: calc(var(--chat-inset) + var(--chat-padding));
 	right: calc(var(--chat-inset) + var(--chat-padding));
+	background-color: var(--bg-color-panel);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.lobbyview aside section div button svg {
+	width: 70%;
+	height: 70%;
+	fill: var(--bg-color);
+	transition: transform 0.5s cubic-bezier(0.5, -0.56, 0.46, 1.34);
+}
+
+.lobbyview.chat-hidden aside section div button svg{
+	transform: rotate(-180deg);
 }
 
 .lobbyview aside section ul {
