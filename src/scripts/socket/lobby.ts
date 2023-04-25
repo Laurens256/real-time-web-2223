@@ -3,8 +3,7 @@ const initLobby = () => {
 	const roomCode = window.location.pathname.split('/')[2];
 	socket.emit('room:join', { room: roomCode, nickname: setNickname() });
 
-	socket.on('room:join:success', (room: string, user: string) => {
-		console.log('Joined room: ' + room);
+	socket.on('room:join:success', (user: string) => {
 		nickName = user;
 	});
 
@@ -60,7 +59,8 @@ const initLobbyMsg = () => {
 };
 
 const createUserMessage = (messageObj: iMsgObj, classNames: string = '') => {
-	const { user, msg } = messageObj;
+	let { user, msg } = messageObj;
+	user = user === nickName ? 'You' : user;
 
 	const li = document.createElement('li');
 	const strong = document.createElement('strong');

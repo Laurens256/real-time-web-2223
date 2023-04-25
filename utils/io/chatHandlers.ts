@@ -28,11 +28,15 @@ const chatHandlers = (io: any, socket: any) => {
 
 			userJoin(room, { id: socket.id, name: user, admin: isAdmin });
 
+			if (isAdmin) {
+				socket.emit('room:admin');
+			}
+
 			socket.broadcast
 				.to(room)
 				.emit('room:message:system', `<nickname>${user}</nickname> has joined the room`);
 
-			socket.emit('room:join:success', room, user);
+			socket.emit('room:join:success', user);
 		} else {
 			socket.emit('room:join:error', 'Room does not exist');
 		}
