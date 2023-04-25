@@ -36,9 +36,12 @@ const userLeave = (room: string, userId: string) => {
 			(u) => u.id !== userId
 		);
 
-		if (rooms[room].users.length === 0) {
-			destroyRoom(room);
-		}
+		// 5 second delay to destroy room so it doesn't get destroyed on reload
+		setTimeout(() => {
+			if (rooms[room].users.length === 0) {
+				destroyRoom(room);
+			}
+		}, 5000);
 	}
 };
 
