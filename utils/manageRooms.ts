@@ -24,7 +24,8 @@ const destroyRoom = (room: string) => {
 	}
 };
 
-const userJoin = (room: string, user: { id: string; name: string }) => {
+const userJoin = (room: string, user: { id: string; name: string; admin?: boolean }) => {
+	user.admin = user.admin ? user.admin : false;
 	if (room in rooms) {
 		rooms[room].users.push(user);
 	}
@@ -45,6 +46,13 @@ const userLeave = (room: string, userId: string) => {
 	}
 };
 
+const getRoomMembers = (room: string) => {
+	if (room in rooms) {
+		return rooms[room].users;
+	}
+	return [];
+};
+
 const characters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
 const charactersLength = characters.length;
 const generateRoomId = (): string => {
@@ -59,4 +67,4 @@ const generateRoomId = (): string => {
 	return result;
 };
 
-export { createRoom, roomExists, userJoin, userLeave };
+export { createRoom, roomExists, userJoin, userLeave, getRoomMembers };

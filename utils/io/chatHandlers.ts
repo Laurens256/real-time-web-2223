@@ -1,4 +1,4 @@
-import { roomExists, userJoin, userLeave } from '../manageRooms.js';
+import { roomExists, userJoin, userLeave, getRoomMembers } from '../manageRooms.js';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 import { getCurrentTyping } from './ioUtils/currentlyTyping.js';
 
@@ -24,7 +24,9 @@ const chatHandlers = (io: any, socket: any) => {
 		if (roomExists(room)) {
 			socket.join(room);
 
-			userJoin(room, { id: socket.id, name: user });
+			const isAdmin = getRoomMembers(room).length === 0;
+
+			userJoin(room, { id: socket.id, name: user, admin: isAdmin });
 
 			socket.broadcast
 				.to(room)
@@ -51,6 +53,7 @@ const chatHandlers = (io: any, socket: any) => {
 	socket.on('disconnect', () => {
 		userLeave(room, socket.id);
 
+		console.log(user);
 		io.to(room).emit(
 			'room:message:system',
 			`<nickname>${user}</nickname> has left the room`
