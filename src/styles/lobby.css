@@ -1,5 +1,5 @@
 .lobbyview {
-	--chat-width: 22rem;
+	--chat-width: min(22rem, 96vw);
 	width: calc(100vw - var(--chat-width));
 }
 
@@ -41,7 +41,7 @@
 	--form-padding: 0.5rem;
 	--is-typing-height: 1.4rem;
 	--is-typing-bottom: 0.5rem;
-	--chat-inset: 2rem;
+	--chat-inset: min(2rem, 2vw);
 	--chat-padding: 1rem;
 	position: fixed;
 	inset: var(--chat-inset) var(--chat-inset) var(--chat-inset) auto;

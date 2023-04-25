@@ -6,12 +6,12 @@
 	justify-content: center;
 	gap: 1rem;
 	min-height: 100vh;
+	padding: 2rem 0;
 }
 
 .homeview section.btn-section {
 	--padding: 1rem;
 	--button-width: 40%;
-	margin-top: 2rem;
 	box-sizing: content-box;
 	display: flex;
 	width: calc(var(--column-width) - var(--padding) * 2);
@@ -112,6 +112,7 @@
 	border: solid 2px var(--bg-color);
 	border-radius: 2rem;
 	background-color: var(--bg-color-panel);
+	width: 100%;
 }
 
 .homeview .start-form button[type='submit'] {
