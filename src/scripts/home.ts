@@ -2,7 +2,7 @@ const actionButtonSection: HTMLElement | null = document.querySelector('.btn-sec
 const formContainer: HTMLElement | null = document.querySelector('.start-form');
 const joinRoomInput: HTMLInputElement | null = document.querySelector('#join_input');
 
-const init = () => {
+const initHomeScript = () => {
 	const roomForm: HTMLElement | null = document.querySelector('form[action="/rooms"]');
 
 	roomForm?.addEventListener('submit', handleFormSubmit);
@@ -58,4 +58,4 @@ const saveNickname = () => {
 	sessionStorage.setItem('nickname', nickname);
 };
 
-init();
+initHomeScript();

@@ -31,7 +31,7 @@ const metaData = {
 	LobbyView: {
 		title: 'RealTime Web | Lobby',
 		description: '',
-		scripts: ['socket']
+		scripts: ['socket', 'lobby']
 	}
 };
 
