@@ -32,7 +32,6 @@ const initLobbyMsg = () => {
 	if (msgContainer && msgForm && msgInput && isTypingUsers && isTypingMessage) {
 		msgForm.addEventListener('submit', (e) => {
 			e.preventDefault();
-			e.stopPropagation()
 
 			if (msgInput.value) {
 				socket.emit('room:msg', msgInput.value);

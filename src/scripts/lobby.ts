@@ -12,9 +12,11 @@ const gifSearchInput: HTMLInputElement | null = document.querySelector(
 const initLobbyScript = () => {
 	if (mainContainer && toggleChatButton) {
 		toggleChatButton.addEventListener('click', toggleChat);
+	} else if (toggleChatButton) {
+		toggleChatButton.remove();
 	}
 
-	if (toggleGifDialog && toggleGifDialogBtn && gifSearchInput) {
+	if (gifDialog && toggleGifDialogBtn && gifSearchInput) {
 		toggleGifDialogBtn.addEventListener('click', toggleGifDialog);
 		gifSearchInput.addEventListener('input', searchGifs);
 	} else if (toggleGifDialogBtn) {
@@ -26,8 +28,8 @@ const toggleChat = () => {
 	mainContainer.classList.toggle('chat-hidden');
 };
 
-const toggleGifDialog = () => {
-	// gifDialog!.open ? gifDialog!.close() : gifDialog!.show();
+const toggleGifDialog = (e: any) => {
+	gifDialog!.open ? gifDialog!.close() : gifDialog!.show();
 };
 
 const searchGifs = async () => {
@@ -35,11 +37,3 @@ const searchGifs = async () => {
 };
 
 initLobbyScript();
-
-document.addEventListener(
-	'focusin',
-	function () {
-		console.log('focused: ', document.activeElement);
-	},
-	true
-);

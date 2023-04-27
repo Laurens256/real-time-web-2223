@@ -57,7 +57,6 @@ const chatHandlers = (io: any, socket: any) => {
 	socket.on('disconnect', () => {
 		userLeave(room, socket.id);
 
-		console.log(user);
 		io.to(room).emit(
 			'room:message:system',
 			`<nickname>${user}</nickname> has left the room`
