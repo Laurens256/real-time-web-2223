@@ -218,4 +218,37 @@
 	flex-wrap: wrap;
 	overflow-y: auto;
 	height: calc(100% - var(--gif-search-height));
+	gap: 0.2rem;
+}
+
+@supports (grid-template-rows: masonry) {
+	.lobbyview aside dialog ul {
+		display: grid;
+		grid-template-rows: masonry;
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.lobbyview aside ul li {
+	height: fit-content;
+}
+
+.lobbyview aside ul li button {
+	border: none;
+	background-color: transparent;
+	display: flex;
+	border-radius: 0.3rem;
+	overflow: hidden;
+}
+
+.lobbyview aside ul li button img {
+	max-width: 100%;
+	outline: solid 0px blue;
+	transition: all 0.15s ease-in-out;
+}
+
+.lobbyview aside ul li button:hover img,
+.lobbyview aside ul li button:focus-visible img {
+	outline-width: 3px;
+	outline-offset: -3px;
 }
