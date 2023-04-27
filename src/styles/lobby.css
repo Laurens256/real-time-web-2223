@@ -92,7 +92,7 @@
 	transition: transform 0.5s cubic-bezier(0.5, -0.56, 0.46, 1.34);
 }
 
-.lobbyview.chat-hidden aside section div button svg{
+.lobbyview.chat-hidden aside section div button svg {
 	transform: rotate(-180deg);
 }
 
@@ -141,16 +141,24 @@
 	background-color: var(--bg-color-panel);
 	color: var(--text-color);
 	border-radius: 0.5rem;
-	padding: 0 calc(var(--send-button-width) + 1rem) 0 1rem;
+	padding: 0 calc(var(--send-button-width) * 2) 0 0.5rem;
 	font-size: 1.2em;
 }
 
-.lobbyview aside form button {
+/* div with send and gif buttons */
+.lobbyview aside form div {
+	display: flex;
+	gap: 0.2rem;
 	position: absolute;
-	height: calc(100% - var(--form-padding) * 2);
-	aspect-ratio: 1;
 	top: var(--form-padding);
 	right: var(--form-padding);
+	height: calc(100% - var(--form-padding) * 2);
+	width: fit-content;
+}
+
+.lobbyview aside form button {
+	height: 100%;
+	aspect-ratio: 1;
 	border-radius: 0.5rem;
 	background-color: transparent;
 	border: solid 2px var(--bg-color);
@@ -175,9 +183,39 @@
 .lobbyview aside form button:hover,
 .lobbyview aside form button:focus-visible {
 	background-color: var(--bg-color);
+	color: var(--white);
 }
 
 .lobbyview aside form button:hover svg path,
 .lobbyview aside form button:focus-visible svg path {
 	fill: var(--white);
+}
+
+/* dialog for searching gifs */
+.lobbyview aside dialog {
+	--gif-search-height: 3.5rem;
+	--gif-dialog-inset: 0.2rem;
+	position: absolute;
+	background-color: red;
+	inset: auto var(--gif-dialog-inset)
+		calc(
+			var(--form-height) + var(--is-typing-bottom) + var(--is-typing-height) +
+				var(--form-padding) + var(--gif-dialog-inset)
+		)
+		var(--gif-dialog-inset);
+	height: 50%;
+	border-radius: 0.8rem;
+	overflow: hidden;
+	padding: calc(var(--chat-padding) - var(--gif-dialog-inset));
+}
+
+.lobbyview aside dialog section {
+	height: var(--gif-search-height);
+}
+
+.lobbyview aside dialog ul {
+	display: flex;
+	flex-wrap: wrap;
+	overflow-y: auto;
+	height: calc(100% - var(--gif-search-height));
 }

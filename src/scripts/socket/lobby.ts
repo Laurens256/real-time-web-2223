@@ -22,8 +22,8 @@ interface iMsgObj {
 }
 
 const msgContainer: HTMLUListElement | null = document.querySelector('.chat ul');
-const msgForm: HTMLFormElement | null = document.querySelector('.chat form');
-const msgInput: HTMLInputElement | null = document.querySelector('.chat form input');
+const msgForm: HTMLFormElement | null = document.querySelector('.chat form[action="/"]');
+const msgInput: HTMLInputElement | null = document.querySelector('.chat form[action="/"] input');
 
 // ... is typing message
 const isTypingUsers: HTMLElement | null = document.querySelector('.chat > small strong');
@@ -32,6 +32,7 @@ const initLobbyMsg = () => {
 	if (msgContainer && msgForm && msgInput && isTypingUsers && isTypingMessage) {
 		msgForm.addEventListener('submit', (e) => {
 			e.preventDefault();
+			e.stopPropagation()
 
 			if (msgInput.value) {
 				socket.emit('room:msg', msgInput.value);
@@ -40,7 +41,7 @@ const initLobbyMsg = () => {
 			}
 		});
 
-		msgInput.addEventListener('keypress', () => {
+		msgInput.addEventListener('input', () => {
 			checkIfTyping(socket);
 		});
 
