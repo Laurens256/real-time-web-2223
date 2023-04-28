@@ -63,7 +63,6 @@ const searchGifs = async () => {
 			img.src = gif.media_formats.gif.url;
 			img.alt = gif.content_description;
 			img.loading = 'lazy';
-			console.log(gif);
 
 			img.setAttribute('data-src', gif.url);
 
