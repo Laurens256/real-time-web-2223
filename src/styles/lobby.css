@@ -109,6 +109,7 @@
 .lobbyview aside section ul li {
 	overflow-wrap: break-word;
 	margin-top: 0.5rem;
+	position: relative;
 }
 
 .lobbyview aside section ul li.same-sender {
@@ -149,11 +150,25 @@
 	color: var(--white);
 }
 
-.lobbyview aside section ul li img {
+.lobbyview aside section ul li a {
+	display: block;
+	outline: none;
+}
+
+.lobbyview aside section ul li a:hover img,
+.lobbyview aside section ul li a:focus-visible img {
+	outline-width: 3px;
+	outline-offset: -3px;
+}
+
+
+.lobbyview aside section ul li a img {
 	max-width: 100%;
 	max-height: 30rem;
 	border-radius: 0.5rem;
 	cursor: pointer;
+	outline: solid 0px var(--bg-color);
+	transition: all 0.15s ease-in-out;
 }
 
 /* "user is typing" section */
@@ -240,7 +255,7 @@
 	--gif-search-height: 3.5rem;
 	--gif-dialog-inset: 0.2rem;
 	position: absolute;
-	background-color: red;
+	background-color: var(--bg-color-panel);
 	inset: auto var(--gif-dialog-inset)
 		calc(
 			var(--form-height) + var(--is-typing-bottom) + var(--is-typing-height) +
@@ -251,6 +266,7 @@
 	border-radius: 0.8rem;
 	overflow: hidden;
 	padding: calc(var(--chat-padding) - var(--gif-dialog-inset));
+	border: solid 3px var(--bg-color);
 }
 
 .lobbyview aside dialog section {
@@ -287,7 +303,7 @@
 
 .lobbyview aside ul li button img {
 	max-width: 100%;
-	outline: solid 0px blue;
+	outline: solid 0px var(--bg-color);
 	transition: all 0.15s ease-in-out;
 }
 

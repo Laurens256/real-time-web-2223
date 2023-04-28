@@ -73,12 +73,7 @@ const createGifMessage = (
 ) => {
 	const li = document.createElement('li');
 	const img = document.createElement('img');
-
-	if (gif.source) {
-		img.addEventListener('click', () => {
-			window.open(gif.source, '_blank');
-		});
-	}
+	const a = document.createElement('a');
 
 	li.setAttribute('data-user', user);
 
@@ -103,7 +98,14 @@ const createGifMessage = (
 	img.src = gif.src;
 	img.alt = gif.alt;
 
-	li.appendChild(img);
+	a.href = gif.source;
+	a.target = '_blank';
+	a.ariaLabel = 'view source';
+
+	a.appendChild(img);
+	li.appendChild(a);
+	
+
 	msgContainer!.appendChild(li);
 
 	msgContainer!.scrollTop = msgContainer!.scrollHeight;

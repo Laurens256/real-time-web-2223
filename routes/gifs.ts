@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const apiKey = process.env.TENOR_API_KEY;
-let limit = 5;
+let limit = 20;
 const tenorUrl = `https://g.tenor.com/v2/search?limit=${limit}&key=${apiKey}&q=`;
 
 router.get('/', async (req, res) => {

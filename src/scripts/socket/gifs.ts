@@ -1,5 +1,6 @@
 const initGifs = () => {
 	if (gifDialog && toggleGifDialogBtn && gifSearchInput && gifContainer) {
+		gifSearchInput.value = '';
 		toggleGifDialogBtn.addEventListener('click', toggleGifDialog);
 		gifSearchInput.addEventListener('input', searchGifs);
 	} else if (toggleGifDialogBtn) {
@@ -19,8 +20,20 @@ const toggleGifDialog = () => {
 		gifDialog!.close();
 		gifSearchInput!.value = '';
 		gifContainer!.innerHTML = '';
+		window.removeEventListener('click', lightDismiss);
 	} else {
 		gifDialog!.show();
+		// timeout so the click event doesn't fire immediately when button is clicked
+		setTimeout(() => {
+			window.addEventListener('click', lightDismiss);
+		}, 10);
+	}
+};
+
+// dismiss the dialog if the user clicks outside of it
+const lightDismiss = (e: MouseEvent) => {
+	if (e.target instanceof HTMLElement && !e.target.closest('dialog')) {
+		toggleGifDialog();
 	}
 };
 
