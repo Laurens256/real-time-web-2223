@@ -55,7 +55,6 @@ const chatHandlers = (io: any, socket: any) => {
 	});
 
 	socket.on('room:msg:gif', (gif: { src: string; alt: string }) => {
-		console.log(gif);
 		io.to(room).emit('room:msg:gif', user, gif);
 	});
 

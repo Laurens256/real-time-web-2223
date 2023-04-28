@@ -30,7 +30,6 @@ const searchGifs = async () => {
 		}
 
 		const gifs: iGif[] = await (await fetch(`/api/gifs?query=${query}`)).json();
-		console.log(gifs);
 
 		gifContainer!.innerHTML = '';
 
