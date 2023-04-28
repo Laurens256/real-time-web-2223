@@ -23,7 +23,9 @@ interface iMsgObj {
 
 const msgContainer: HTMLUListElement | null = document.querySelector('.chat ul');
 const msgForm: HTMLFormElement | null = document.querySelector('.chat form[action="/"]');
-const msgInput: HTMLInputElement | null = document.querySelector('.chat form[action="/"] input');
+const msgInput: HTMLInputElement | null = document.querySelector(
+	'.chat form[action="/"] input'
+);
 
 // ... is typing message
 const isTypingUsers: HTMLElement | null = document.querySelector('.chat > small strong');
@@ -52,10 +54,32 @@ const initLobbyMsg = () => {
 			createUserMessage(messageObj);
 		});
 
-		socket.on('room:message:system', (message: string) => {
+		socket.on('room:msg:system', (message: string) => {
 			createSystemMessage(message);
 		});
+
+		socket.on('room:msg:gif', (user: string, gif: { src: string; alt: string }) => {
+			createGifMessage(user, gif);
+		});
 	}
+};
+
+const createGifMessage = (user: string, gif: { src: string; alt: string }) => {
+	const li = document.createElement('li');
+	const strong = document.createElement('strong');
+	const img = document.createElement('img');
+
+	user = user === nickName ? 'You' : user;
+
+	strong.textContent = `${user}: `;
+	img.src = gif.src;
+	img.alt = gif.alt;
+
+	li.appendChild(strong);
+	li.appendChild(img);
+	msgContainer!.appendChild(li);
+
+	msgContainer!.scrollTop = msgContainer!.scrollHeight;
 };
 
 const createUserMessage = (messageObj: iMsgObj, classNames: string = '') => {

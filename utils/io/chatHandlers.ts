@@ -34,7 +34,7 @@ const chatHandlers = (io: any, socket: any) => {
 
 			socket.broadcast
 				.to(room)
-				.emit('room:message:system', `<nickname>${user}</nickname> has joined the room`);
+				.emit('room:msg:system', `<nickname>${user}</nickname> has joined the room`);
 
 			socket.emit('room:join:success', user);
 		} else {
@@ -54,13 +54,15 @@ const chatHandlers = (io: any, socket: any) => {
 		io.to(room).emit('room:msg', { user, msg });
 	});
 
+	socket.on('room:msg:gif', (gif: { src: string; alt: string }) => {
+		console.log(gif);
+		io.to(room).emit('room:msg:gif', user, gif);
+	});
+
 	socket.on('disconnect', () => {
 		userLeave(room, socket.id);
 
-		io.to(room).emit(
-			'room:message:system',
-			`<nickname>${user}</nickname> has left the room`
-		);
+		io.to(room).emit('room:msg:system', `<nickname>${user}</nickname> has left the room`);
 	});
 };
 
