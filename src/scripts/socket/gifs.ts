@@ -15,7 +15,13 @@ const gifSearchInput: HTMLInputElement | null = document.querySelector(
 const gifContainer = document.querySelector('dialog ul');
 
 const toggleGifDialog = () => {
-	gifDialog!.open ? gifDialog!.close() : gifDialog!.show();
+	if (gifDialog!.open) {
+		gifDialog!.close();
+		gifSearchInput!.value = '';
+		gifContainer!.innerHTML = '';
+	} else {
+		gifDialog!.show();
+	}
 };
 
 // set a timeout to prevent the api from being called too often
@@ -43,6 +49,11 @@ const searchGifs = async () => {
 			const img = document.createElement('img');
 			img.src = gif.media_formats.gif.url;
 			img.alt = gif.content_description;
+			img.loading = 'lazy';
+			console.log(gif);
+
+			img.setAttribute('data-src', gif.url);
+
 			button.appendChild(img);
 			li.appendChild(button);
 			fragment.appendChild(li);
@@ -59,7 +70,7 @@ const sendGif = (e: MouseEvent) => {
 		const img = button?.querySelector('img');
 
 		if (img instanceof HTMLImageElement) {
-			const gif = { src: img.src, alt: img.alt };
+			const gif = { src: img.src, alt: img.alt, source: img.dataset.src };
 			socket.emit('room:msg:gif', gif);
 		}
 	}

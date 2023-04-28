@@ -12,7 +12,7 @@
 /* ----------------------------- */
 /* ----------- header ---------- */
 /* ----------------------------- */
-.lobbyview header {
+.lobbyview > header {
 	padding: 1rem;
 	display: flex;
 	flex-direction: column;
@@ -21,16 +21,16 @@
 	color: var(--white);
 }
 
-.lobbyview header p {
+.lobbyview > header p {
 	font-size: 1.4rem;
 }
 
-.lobbyview header h1 {
+.lobbyview > header h1 {
 	font-size: 2.5rem;
 }
 
-.lobbyview header h1::selection {
-	color: var(--accent-color);
+.lobbyview > header h1::selection {
+	/* color: var(--accent-color); */
 }
 
 /* ----------------------------- */
@@ -62,7 +62,7 @@
 	height: calc(100% - var(--form-height) - var(--is-typing-height));
 }
 
-.lobbyview aside section div {
+.lobbyview aside section header {
 	display: flex;
 	justify-content: space-between;
 	border-bottom: solid 2px var(--bg-color);
@@ -70,7 +70,7 @@
 }
 
 /* minimize / maximize button */
-.lobbyview aside section div button {
+.lobbyview aside section header button {
 	border: solid 2px var(--bg-color);
 	color: var(--text-color);
 	border-radius: 2rem;
@@ -85,34 +85,75 @@
 	justify-content: center;
 }
 
-.lobbyview aside section div button svg {
+.lobbyview aside section header button svg {
 	width: 70%;
 	height: 70%;
 	fill: var(--bg-color);
 	transition: transform 0.5s cubic-bezier(0.5, -0.56, 0.46, 1.34);
 }
 
-.lobbyview.chat-hidden aside section div button svg {
+.lobbyview.chat-hidden aside section header button svg {
 	transform: rotate(-180deg);
 }
 
+/* list with messages */
 .lobbyview aside section ul {
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
 	height: calc(100% - var(--heading-height) - 1rem);
 	overflow-y: auto;
-	margin-top: 0.5rem;
 	width: 100%;
 	overflow-x: hidden;
 }
 
 .lobbyview aside section ul li {
 	overflow-wrap: break-word;
+	margin-top: 0.5rem;
 }
 
-.lobbyview aside section ul li.system strong {
-	color: var(--accent-color);
+.lobbyview aside section ul li.same-sender {
+	margin-top: .2rem;
+}
+
+.lobbyview aside section ul li strong {
+	display: block;
+}
+
+.lobbyview aside section ul li span {
+	max-width: 100%;
+}
+
+.lobbyview aside section ul li.system {
+	text-align: center;
+}
+
+.lobbyview aside section ul li.system span {
+	background-color: var(--system-message-bg-color);
+	color: var(--white);
+}
+
+.lobbyview aside section ul li span {
+	background-color: var(--message-bg-color);
+	color: var(--text-color);
+	display: inline-block;
+	border-radius: 0.5rem;
+	padding: 0.5rem 0.8rem;
+}
+
+.lobbyview aside section ul li.self {
+	text-align: right;
+}
+
+.lobbyview aside section ul li.self span {
+	background-color: var(--message-bg-color-self);
+	color: var(--white);
+}
+
+.lobbyview aside section ul li img {
+	max-width: 100%;
+	max-height: 30rem;
+	border-radius: 0.5rem;
+	cursor: pointer;
 }
 
 /* "user is typing" section */
@@ -157,11 +198,14 @@
 }
 
 .lobbyview aside form button {
+	color: var(--bg-color);
+	font-size: 1rem;
 	height: 100%;
 	aspect-ratio: 1;
 	border-radius: 0.5rem;
 	background-color: transparent;
 	border: solid 2px var(--bg-color);
+	font-weight: 900;
 }
 
 .lobbyview aside form button svg {

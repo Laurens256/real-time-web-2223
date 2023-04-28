@@ -24,6 +24,7 @@ a {
 button {
 	cursor: pointer;
 	font-family: inherit;
+	color: inherit;
 }
 
 body {
@@ -40,7 +41,9 @@ body {
 
 	--text-color: #000;
 
-	--accent-color: #ff6b81;
+	--system-message-bg-color: #5d53c6;
+	--message-bg-color: #a6a4fc;
+	--message-bg-color-self: #4e4bfa;
 
 	--white: #fff;
 }
@@ -48,6 +51,8 @@ body {
 /* @media (prefers-color-scheme: dark) {
 	:root {
 		--bg-color-panel: #2b2b2b;
+
+		--message-bg-color: #333333;
 
 		--text-color: #fff;
 	}

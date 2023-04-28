@@ -58,44 +58,85 @@ const initLobbyMsg = () => {
 			createSystemMessage(message);
 		});
 
-		socket.on('room:msg:gif', (user: string, gif: { src: string; alt: string }) => {
-			createGifMessage(user, gif);
-		});
+		socket.on(
+			'room:msg:gif',
+			(user: string, gif: { src: string; alt: string; source: string }) => {
+				createGifMessage(user, gif);
+			}
+		);
 	}
 };
 
-const createGifMessage = (user: string, gif: { src: string; alt: string }) => {
+const createGifMessage = (
+	user: string,
+	gif: { src: string; alt: string; source: string }
+) => {
 	const li = document.createElement('li');
-	const strong = document.createElement('strong');
 	const img = document.createElement('img');
 
-	user = user === nickName ? 'You' : user;
+	if (gif.source) {
+		img.addEventListener('click', () => {
+			window.open(gif.source, '_blank');
+		});
+	}
 
-	strong.textContent = `${user}: `;
+	li.setAttribute('data-user', user);
+
+	const sameUser = checkPrevMessage(user);
+
+	if (user === nickName) {
+		li.classList.add('self');
+		user = 'You';
+	}
+
+	if (!sameUser) {
+		const nameDiv = document.createElement('div');
+		const strong = document.createElement('strong');
+		strong.textContent = `${user}`;
+
+		nameDiv.appendChild(strong);
+		li.appendChild(nameDiv);
+	} else {
+		li.classList.add('same-sender');
+	}
+
 	img.src = gif.src;
 	img.alt = gif.alt;
 
-	li.appendChild(strong);
 	li.appendChild(img);
 	msgContainer!.appendChild(li);
 
 	msgContainer!.scrollTop = msgContainer!.scrollHeight;
 };
 
-const createUserMessage = (messageObj: iMsgObj, classNames: string = '') => {
+const createUserMessage = (messageObj: iMsgObj) => {
 	let { user, msg } = messageObj;
-	user = user === nickName ? 'You' : user;
+
+	const sameUser = checkPrevMessage(user);
 
 	const li = document.createElement('li');
-	const strong = document.createElement('strong');
 	const span = document.createElement('span');
+	li.setAttribute('data-user', user);
 
-	strong.textContent = `${user}: `;
+	if (user === nickName) {
+		li.classList.add('self');
+		user = 'You';
+	}
+
+	if (!sameUser) {
+		const nameDiv = document.createElement('div');
+		const strong = document.createElement('strong');
+		strong.textContent = `${user}`;
+
+		nameDiv.appendChild(strong);
+		li.appendChild(nameDiv);
+	} else {
+		li.classList.add('same-sender');
+	}
+
 	span.textContent = msg;
 
-	li.appendChild(strong);
 	li.appendChild(span);
-	li.className = classNames;
 	msgContainer!.appendChild(li);
 
 	msgContainer!.scrollTop = msgContainer!.scrollHeight;
@@ -103,19 +144,27 @@ const createUserMessage = (messageObj: iMsgObj, classNames: string = '') => {
 
 const createSystemMessage = (content: string) => {
 	const li = document.createElement('li');
-	const strong = document.createElement('strong');
 
 	// message is a <span> tag containing any found nicknames inside an <em> tag
 	const message = findName(content);
-	strong.textContent = 'System: ';
 
-	li.appendChild(strong);
 	li.appendChild(message);
 
 	li.classList.add('system');
 	msgContainer!.appendChild(li);
 
 	msgContainer!.scrollTop = msgContainer!.scrollHeight;
+};
+
+const checkPrevMessage = (newMsgUser: string) => {
+	const prevMessage = msgContainer!.lastElementChild;
+
+	if (prevMessage && prevMessage instanceof HTMLLIElement) {
+		const user = prevMessage.dataset.user;
+		console.log(user, nickName);
+		return user === newMsgUser;
+	}
+	return false;
 };
 
 // finds my custom <nickname> tag and returns a span with the message, if my custom tag is found, it's placed into an <em> tag and inserted into  the right place in the string

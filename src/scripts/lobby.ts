@@ -1,6 +1,6 @@
 const mainContainer = document.querySelector('.lobbyview') as HTMLElement;
 const toggleChatButton: HTMLButtonElement | null = document.querySelector(
-	'.chat section div button'
+	'.chat section header button'
 );
 
 const initLobbyScript = () => {
