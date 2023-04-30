@@ -7,7 +7,6 @@ const initLobby = () => {
 		nickName = user;
 	});
 
-	setNickname();
 	initLobbyMsg();
 };
 
@@ -21,15 +20,25 @@ interface iMsgObj {
 	msg: string;
 }
 
-const msgContainer: HTMLUListElement | null = document.querySelector('.sidebar section.chat ul');
-const msgForm: HTMLFormElement | null = document.querySelector('.sidebar section.chat form[action="/"]');
+const userCountElement: HTMLElement | null = document.querySelector('.user-count');
+
+const msgContainer: HTMLUListElement | null = document.querySelector(
+	'.sidebar section.chat ul'
+);
+const msgForm: HTMLFormElement | null = document.querySelector(
+	'.sidebar section.chat form[action="/"]'
+);
 const msgInput: HTMLInputElement | null = document.querySelector(
 	'.sidebar section.chat form[action="/"] input'
 );
 
 // ... is typing message
-const isTypingUsers: HTMLElement | null = document.querySelector('.sidebar section.chat small strong');
-const isTypingMessage: HTMLElement | null = document.querySelector('.sidebar section.chat small span');
+const isTypingUsers: HTMLElement | null = document.querySelector(
+	'.sidebar section.chat small strong'
+);
+const isTypingMessage: HTMLElement | null = document.querySelector(
+	'.sidebar section.chat small span'
+);
 const initLobbyMsg = () => {
 	if (msgContainer && msgForm && msgInput && isTypingUsers && isTypingMessage) {
 		msgForm.addEventListener('submit', (e) => {
@@ -57,6 +66,12 @@ const initLobbyMsg = () => {
 		socket.on('room:msg:system', (message: string) => {
 			createSystemMessage(message);
 		});
+
+		if (userCountElement) {
+			socket.on('room:update:users', (userCount: number) => {
+				userCountElement.textContent = String(userCount);
+			});
+		}
 
 		socket.on(
 			'room:msg:gif',
@@ -95,16 +110,19 @@ const createGifMessage = (
 		li.classList.add('same-sender');
 	}
 
-	img.src = gif.src;
-	img.alt = gif.alt;
+	Object.assign(img, {
+		src: gif.src,
+		alt: gif.alt
+	});
 
-	a.href = gif.source;
-	a.target = '_blank';
-	a.ariaLabel = 'view source';
+	Object.assign(a, {
+		href: gif.source,
+		target: '_blank',
+		ariaLabel: 'view source'
+	});
 
 	a.appendChild(img);
 	li.appendChild(a);
-	
 
 	msgContainer!.appendChild(li);
 

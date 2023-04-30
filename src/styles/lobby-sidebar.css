@@ -26,6 +26,7 @@
 	background-color: var(--bg-color-panel);
 	padding: var(--panel-padding);
 	border-radius: 1rem;
+	position: relative;
 }
 
 /* header section met room pin etc */
@@ -39,9 +40,14 @@
 	text-align: center;
 }
 
+.lobbyview aside section.info p.user-count {
+	position: absolute;
+	right: var(--panel-padding);
+	bottom: var(--panel-padding);
+}
+
 .lobbyview aside section.chat {
 	--heading-height: 2.3rem;
-	position: relative;
 	right: 0;
 	transition: right 0.5s cubic-bezier(0.5, -0.56, 0.46, 1.34);
 }
