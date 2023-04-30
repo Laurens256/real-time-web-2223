@@ -1,36 +1,8 @@
 .lobbyview {
 	--chat-width: min(22rem, 96vw);
-	width: calc(100vw - var(--chat-width));
-}
-
-@media screen and (max-width: 768px) {
-	.lobbyview {
-		width: 100vw;
-	}
-}
-
-/* ----------------------------- */
-/* ----------- header ---------- */
-/* ----------------------------- */
-.lobbyview > header {
-	padding: 1rem;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 0.2rem;
-	color: var(--white);
-}
-
-.lobbyview > header p {
-	font-size: 1.4rem;
-}
-
-.lobbyview > header h1 {
-	font-size: 2.5rem;
-}
-
-.lobbyview > header h1::selection {
-	/* color: var(--accent-color); */
+	--sidebar-inset: min(1rem, 2vw);
+	width: calc(100vw - var(--chat-width) - var(--sidebar-inset) * 2);
+	min-height: 100vh;
 }
 
 /* ----------------------------- */
@@ -40,29 +12,45 @@
 	--form-height: 3.5rem;
 	--form-padding: 0.5rem;
 	--is-typing-height: 1.4rem;
-	--is-typing-bottom: 0.5rem;
-	--chat-inset: min(2rem, 2vw);
-	--chat-padding: 1rem;
+	--panel-padding: 1rem;
 	position: fixed;
-	inset: var(--chat-inset) var(--chat-inset) var(--chat-inset) auto;
-	border-radius: 1rem;
-	padding: var(--chat-padding);
+	inset: var(--sidebar-inset) var(--sidebar-inset) var(--sidebar-inset) auto;
 	width: var(--chat-width);
+	display: grid;
+	grid-template-rows: 1fr 80%;
+	gap: 1rem;
+}
+
+.lobbyview aside > section {
+	height: 100%;
 	background-color: var(--bg-color-panel);
-	transition: inset 0.5s cubic-bezier(0.5, -0.56, 0.46, 1.34);
+	padding: var(--panel-padding);
+	border-radius: 1rem;
 }
 
-.lobbyview.chat-hidden aside {
-	inset: var(--chat-inset) calc(-1 * var(--chat-width) - var(--chat-inset))
-		var(--chat-inset) auto;
+/* header section met room pin etc */
+.lobbyview aside section.info p {
+	font-size: 1rem;
+	text-align: center;
 }
 
-.lobbyview aside section {
+.lobbyview aside section.info h1 {
+	font-size: 1.4rem;
+	text-align: center;
+}
+
+.lobbyview aside section.chat {
 	--heading-height: 2.3rem;
-	height: calc(100% - var(--form-height) - var(--is-typing-height));
+	position: relative;
+	right: 0;
+	transition: right 0.5s cubic-bezier(0.5, -0.56, 0.46, 1.34);
 }
 
-.lobbyview aside section header {
+.lobbyview.chat-hidden aside section.chat {
+	right: calc(-100% - var(--sidebar-inset) - var(--panel-padding));
+}
+
+.lobbyview aside section.chat header {
 	display: flex;
 	justify-content: space-between;
 	border-bottom: solid 2px var(--bg-color);
@@ -70,70 +58,72 @@
 }
 
 /* minimize / maximize button */
-.lobbyview aside section header button {
+.lobbyview aside section.chat header button {
 	border: solid 2px var(--bg-color);
 	color: var(--text-color);
 	border-radius: 2rem;
 	width: calc(var(--heading-height) - 0.3rem);
 	aspect-ratio: 1;
 	position: fixed;
-	top: calc(var(--chat-inset) + var(--chat-padding));
-	right: calc(var(--chat-inset) + var(--chat-padding));
+	top: calc(var(--sidebar-inset) + 20% + var(--form-padding));
+	right: calc(var(--sidebar-inset) + var(--panel-padding));
 	background-color: var(--bg-color-panel);
 	display: flex;
 	align-items: center;
 	justify-content: center;
 }
 
-.lobbyview aside section header button svg {
+.lobbyview aside section.chat header button svg {
 	width: 70%;
 	height: 70%;
 	fill: var(--bg-color);
 	transition: transform 0.5s cubic-bezier(0.5, -0.56, 0.46, 1.34);
 }
 
-.lobbyview.chat-hidden aside section header button svg {
+.lobbyview.chat-hidden aside section.chat header button svg {
 	transform: rotate(-180deg);
 }
 
 /* list with messages */
-.lobbyview aside section ul {
+.lobbyview aside section.chat > ul {
 	display: flex;
 	flex-direction: column;
-	height: calc(100% - var(--heading-height) - 1rem);
+	height: calc(
+		100% - var(--heading-height) - var(--form-height) - var(--is-typing-height)
+	);
 	overflow-y: auto;
 	width: 100%;
 	overflow-x: hidden;
 }
 
-.lobbyview aside section ul li {
+.lobbyview aside section.chat > ul li {
 	overflow-wrap: break-word;
 	margin-top: 0.5rem;
 	position: relative;
 }
 
-.lobbyview aside section ul li.same-sender {
-	margin-top: .2rem;
+.lobbyview aside section.chat > ul li.same-sender {
+	margin-top: 0.2rem;
 }
 
-.lobbyview aside section ul li strong {
+.lobbyview aside section.chat > ul li strong {
 	display: block;
 }
 
-.lobbyview aside section ul li span {
+.lobbyview aside section.chat > ul li span {
 	max-width: 100%;
 }
 
-.lobbyview aside section ul li.system {
+.lobbyview aside section.chat > ul li.system {
 	text-align: center;
 }
 
-.lobbyview aside section ul li.system span {
+.lobbyview aside section.chat > ul li.system span {
 	background-color: var(--system-message-bg-color);
 	color: var(--white);
 }
 
-.lobbyview aside section ul li span {
+.lobbyview aside section.chat > ul li span {
 	background-color: var(--message-bg-color);
 	color: var(--text-color);
 	display: inline-block;
@@ -141,28 +131,27 @@
 	padding: 0.5rem 0.8rem;
 }
 
-.lobbyview aside section ul li.self {
+.lobbyview aside section.chat > ul li.self {
 	text-align: right;
 }
 
-.lobbyview aside section ul li.self span {
+.lobbyview aside section.chat > ul li.self span {
 	background-color: var(--message-bg-color-self);
 	color: var(--white);
 }
 
-.lobbyview aside section ul li a {
+.lobbyview aside section.chat > ul li a {
 	display: block;
 	outline: none;
 }
 
-.lobbyview aside section ul li a:hover img,
-.lobbyview aside section ul li a:focus-visible img {
+.lobbyview aside section.chat > ul li a:hover img,
+.lobbyview aside section.chat > ul li a:focus-visible img {
 	outline-width: 3px;
 	outline-offset: -3px;
 }
 
-
-.lobbyview aside section ul li a img {
+.lobbyview aside section.chat > ul li a img {
 	max-width: 100%;
 	max-height: 30rem;
 	border-radius: 0.5rem;
@@ -170,14 +159,14 @@
 	transition: all 0.15s ease-in-out;
 }
 
-/* "user is typing" section */
-.lobbyview aside > small {
+/* "user is typing" section.chat */
+.lobbyview aside section.chat small {
 	display: block;
 	height: var(--is-typing-height);
 	margin-top: 0.5rem;
 }
 
-.lobbyview aside > small.hidden {
+.lobbyview aside section.chat small.hidden {
 	display: none;
 }
 
@@ -258,24 +247,21 @@
 	background-color: var(--bg-color-panel);
 	inset: auto var(--gif-dialog-inset)
 		calc(
-			var(--form-height) + var(--is-typing-bottom) + var(--is-typing-height) +
-				var(--form-padding) + var(--gif-dialog-inset)
+			var(--form-height) + var(--is-typing-height) +
+				var(--form-padding) + var(--gif-dialog-inset) + var(--gap)
 		)
 		var(--gif-dialog-inset);
-	height: 50%;
+	height: 70%;
 	width: calc(100% - var(--gif-dialog-inset) * 2);
 	border-radius: 0.8rem;
 	overflow: hidden;
-	padding: calc(var(--chat-padding) - var(--gif-dialog-inset));
+	padding: calc(var(--panel-padding) - var(--gif-dialog-inset));
 	border: solid 3px var(--bg-color);
 }
 
 .lobbyview aside dialog section {
-	--input-padding-horizontal: 0.5rem; 
+	--input-padding-horizontal: 0.5rem;
 	height: var(--gif-search-height);
-	position: relative;
-	display: flex;
-	flex-direction: column;
 	margin-bottom: var(--gap);
 }
 
@@ -289,7 +275,7 @@
 	height: 100%;
 	width: 100%;
 	border: solid 2px var(--bg-color);
-	border-radius: .4rem;
+	border-radius: 0.4rem;
 	outline: 0;
 	font-size: 1.1rem;
 }
@@ -332,4 +318,11 @@
 .lobbyview aside ul li button:focus-visible img {
 	outline-width: 3px;
 	outline-offset: -3px;
+}
+
+
+@media screen and (max-width: 768px) {
+	.lobbyview {
+		width: 100vw;
+	}
 }

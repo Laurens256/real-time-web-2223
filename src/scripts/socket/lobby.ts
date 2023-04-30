@@ -21,15 +21,15 @@ interface iMsgObj {
 	msg: string;
 }
 
-const msgContainer: HTMLUListElement | null = document.querySelector('.chat ul');
-const msgForm: HTMLFormElement | null = document.querySelector('.chat form[action="/"]');
+const msgContainer: HTMLUListElement | null = document.querySelector('.sidebar section.chat ul');
+const msgForm: HTMLFormElement | null = document.querySelector('.sidebar section.chat form[action="/"]');
 const msgInput: HTMLInputElement | null = document.querySelector(
-	'.chat form[action="/"] input'
+	'.sidebar section.chat form[action="/"] input'
 );
 
 // ... is typing message
-const isTypingUsers: HTMLElement | null = document.querySelector('.chat > small strong');
-const isTypingMessage: HTMLElement | null = document.querySelector('.chat > small span');
+const isTypingUsers: HTMLElement | null = document.querySelector('.sidebar section.chat small strong');
+const isTypingMessage: HTMLElement | null = document.querySelector('.sidebar section.chat small span');
 const initLobbyMsg = () => {
 	if (msgContainer && msgForm && msgInput && isTypingUsers && isTypingMessage) {
 		msgForm.addEventListener('submit', (e) => {
