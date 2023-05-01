@@ -20,7 +20,7 @@ interface iMsgObj {
 	msg: string;
 }
 
-const userCountElement: HTMLElement | null = document.querySelector('.user-count');
+const userCountElement: HTMLElement | null = document.querySelector('.user-count-container p');
 
 const msgContainer: HTMLUListElement | null = document.querySelector(
 	'.sidebar section.chat ul'

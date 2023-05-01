@@ -9,6 +9,7 @@
 /* --------- chat aside -------- */
 /* ----------------------------- */
 .lobbyview aside {
+	--upper-panel-height: 15%;
 	--form-height: 3.5rem;
 	--form-padding: 0.5rem;
 	--is-typing-height: 1.4rem;
@@ -17,7 +18,8 @@
 	inset: var(--sidebar-inset) var(--sidebar-inset) var(--sidebar-inset) auto;
 	width: var(--chat-width);
 	display: grid;
-	grid-template-rows: 1fr 80%;
+	/* als ik  upper-panle-height gebruik voor de eerste row doet hij raar dus domme calc zo */
+	grid-template-rows: 1fr calc(100% - var(--upper-panel-height));
 	gap: 1rem;
 }
 
@@ -30,7 +32,7 @@
 }
 
 /* header section met room pin etc */
-.lobbyview aside section.info p {
+.lobbyview aside section.info > p {
 	font-size: 1rem;
 	text-align: center;
 }
@@ -40,10 +42,22 @@
 	text-align: center;
 }
 
-.lobbyview aside section.info p.user-count {
+.lobbyview aside section.info div.user-count-container {
 	position: absolute;
+	display: flex;
+	align-items: center;
+	height: 1.3rem;
+	gap: 0.1rem;
+	top: var(--panel-padding);
 	right: var(--panel-padding);
-	bottom: var(--panel-padding);
+}
+
+.lobbyview aside section.info div.user-count-container p {
+	font-size: 1.2rem;
+}
+
+.lobbyview aside section.info div.user-count-container svg {
+	height: 100%;
 }
 
 .lobbyview aside section.chat {
@@ -71,12 +85,13 @@
 	width: calc(var(--heading-height) - 0.3rem);
 	aspect-ratio: 1;
 	position: fixed;
-	top: calc(var(--sidebar-inset) + 20% + var(--form-padding));
+	top: calc(var(--sidebar-inset) + var(--upper-panel-height) + var(--form-padding));
 	right: calc(var(--sidebar-inset) + var(--panel-padding));
 	background-color: var(--bg-color-panel);
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	transition: background-color 0.2s ease-in-out;
 }
 
 .lobbyview aside section.chat header button svg {
