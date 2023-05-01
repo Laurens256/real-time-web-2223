@@ -5,6 +5,8 @@ const initLobby = () => {
 
 	socket.on('room:join:success', (user: string) => {
 		nickName = user;
+		// set nickname in session storage to make sure it doesnt get lost on refresh
+		sessionStorage.setItem('nickname', user);
 	});
 
 	initLobbyMsg();
