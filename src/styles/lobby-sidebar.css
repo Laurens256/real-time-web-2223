@@ -268,8 +268,8 @@
 	background-color: var(--bg-color-panel);
 	inset: auto var(--gif-dialog-inset)
 		calc(
-			var(--form-height) + var(--is-typing-height) +
-				var(--form-padding) + var(--gif-dialog-inset) + var(--gap)
+			var(--form-height) + var(--is-typing-height) + var(--form-padding) +
+				var(--gif-dialog-inset) + var(--gap)
 		)
 		var(--gif-dialog-inset);
 	height: 70%;
@@ -327,6 +327,7 @@
 	display: flex;
 	border-radius: 0.3rem;
 	overflow: hidden;
+	position: relative;
 }
 
 .lobbyview aside ul li button img {
@@ -341,6 +342,25 @@
 	outline-offset: -3px;
 }
 
+
+/* trending terms styles */
+.lobbyview aside dialog.empty ul:first-of-type,
+.lobbyview aside dialog:not(.empty) ul:last-of-type {
+	display: none;
+}
+
+.lobbyview aside dialog ul:last-of-type span {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1rem;
+	padding: 0.5rem;
+	font-weight: bold;
+	color: var(--white);
+	background-color: rgba(0, 0, 0, 0.7);
+}
 
 @media screen and (max-width: 768px) {
 	.lobbyview {

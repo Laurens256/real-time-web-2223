@@ -1,8 +1,10 @@
 const initGifs = () => {
 	if (gifDialog && toggleGifDialogBtn && gifSearchInput && gifContainer) {
 		gifSearchInput.value = '';
+		gifDialog.classList.add('empty');
 		toggleGifDialogBtn.addEventListener('click', toggleGifDialog);
-		gifSearchInput.addEventListener('input', searchGifs);
+		gifSearchInput.addEventListener('input', searchGifs.bind(null, 500));
+		gifSearchInput.addEventListener('instantSearch', searchGifs.bind(null, 0));
 	} else if (toggleGifDialogBtn) {
 		toggleGifDialogBtn.remove();
 	}
@@ -20,6 +22,7 @@ const toggleGifDialog = () => {
 		gifDialog!.close();
 		gifSearchInput!.value = '';
 		gifContainer!.innerHTML = '';
+		gifDialog!.classList.add('empty');
 		window.removeEventListener('click', lightDismiss);
 	} else {
 		gifDialog!.show();
@@ -39,13 +42,15 @@ const lightDismiss = (e: MouseEvent) => {
 
 // set a timeout to prevent the api from being called too often
 let searchDelay: ReturnType<typeof setTimeout>;
-const searchGifs = async () => {
+const searchGifs = async (delay?: number) => {
 	clearTimeout(searchDelay);
 
 	searchDelay = setTimeout(async () => {
 		const query = gifSearchInput!.value;
 		if (!query || query.length < 2) {
 			gifContainer!.innerHTML = '';
+			gifDialog!.classList.add('empty');
+			return;
 		}
 
 		const gifs: iGif[] = await (await fetch(`/api/gifs/search?query=${query}`)).json();
@@ -71,8 +76,10 @@ const searchGifs = async () => {
 			fragment.appendChild(li);
 		});
 
+		gifDialog!.classList.remove('empty');
+
 		gifContainer!.appendChild(fragment);
-	}, 500);
+	}, delay);
 };
 
 const sendGif = (e: MouseEvent) => {

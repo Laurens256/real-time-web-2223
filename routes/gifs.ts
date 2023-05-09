@@ -20,7 +20,7 @@ router.get('/', async (req: iReqWithParams, res) => {
 			return await searchGifs(req, res);
 
 		case 'trending':
-			return await getTrendingCategories();
+			return await getTrendingCategories(res);
 	}
 });
 
@@ -36,10 +36,9 @@ const searchGifs = async (req: Request, res: Response) => {
 	}
 };
 
-const getTrendingCategories = async () => {
+const getTrendingCategories = async (res: Response) => {
 	const categories = (await (await tenorFetch(trendingUrl)).json()).results;
-	console.log(categories);
-	return categories;
+	return res.json(categories);
 };
 
 // prettier-ignore
