@@ -1,24 +1,45 @@
-import express from 'express';
-const router = express.Router();
+import express, { Request, Response } from 'express';
+const router = express.Router({ mergeParams: true });
 
 import dotenv from 'dotenv';
 dotenv.config();
 
 const apiKey = process.env.TENOR_API_KEY;
-let limit = 20;
-const tenorUrl = `https://g.tenor.com/v2/search?limit=${limit}&key=${apiKey}&q=`;
+const searchUrl = `https://g.tenor.com/v2/search?q=`;
+const trendingUrl = `https://g.tenor.com/v2/trending_terms?limit=10`;
 
-router.get('/', async (req, res) => {
-	const query = req.query.query;
-	if (query && typeof query === 'string' && query.length >= 2) {
-		const gifs = await getTenorGifs(query);
-		res.json(gifs);
+interface iReqWithParams extends Request {
+	params: { type: string };
+}
+
+router.get('/', async (req: iReqWithParams, res) => {
+	const type = req.params.type;
+
+	switch (type) {
+		case 'search':
+			return await searchGifs(req, res);
+
+		case 'trending':
+			return await getTrendingCategories();
 	}
 });
 
-const getTenorGifs = async (query: string) => {
-	const gifs = (await (await fetch(tenorUrl + query)).json()).results;
-	return cleanGifs(gifs);
+const searchGifs = async (req: Request, res: Response) => {
+	const query = req.query.query;
+	if (query && typeof query === 'string' && query.length >= 2) {
+		try {
+			const gifs = (await (await tenorFetch(searchUrl + query)).json()).results;
+			return res.json(cleanGifs(gifs));
+		} catch (err) {
+			console.log(err);
+		}
+	}
+};
+
+const getTrendingCategories = async () => {
+	const categories = (await (await tenorFetch(trendingUrl)).json()).results;
+	console.log(categories);
+	return categories;
 };
 
 // prettier-ignore
@@ -60,3 +81,7 @@ interface iGif {
 	flags: string[];
 	hasaudio: boolean;
 }
+
+const tenorFetch = (url: string) => {
+	return fetch(`${url}&key=${apiKey}`);
+};

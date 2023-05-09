@@ -10,7 +10,8 @@ const routes = [
 	{ path: '/', view: home, viewName: 'HomeView' },
 
 	// api routes
-	{ path: '/api/gifs', view: gifs, viewName: '' },
+	{ path: '/api/gifs/:type', view: gifs, viewName: '' },
+	// { path: '/api/gifs', view: gifs, viewName: '' },
 
 	// { path: '*', view: error, viewName: 'ErrorView' }
 ];
