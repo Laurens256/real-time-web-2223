@@ -6,6 +6,19 @@
 	align-items: center;
 }
 
+
+
+.lobbyview main.unstarted div.board,
+.lobbyview main.started section.waiting {
+	display: none;
+}
+
+.lobbyview main section.waiting {
+	background-color: var(--bg-color-panel);
+	border-radius: 10px;
+	padding: 2rem 1rem;
+}
+
 .lobbyview main .board {
 	box-sizing: content-box;
 	width: min(600px, 100%);

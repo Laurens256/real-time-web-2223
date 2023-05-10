@@ -22,7 +22,9 @@ interface iMsgObj {
 	msg: string;
 }
 
-const userCountElement: HTMLElement | null = document.querySelector('.user-count-container p');
+const userCountElement: HTMLElement | null = document.querySelector(
+	'.user-count-container p'
+);
 
 const msgContainer: HTMLUListElement | null = document.querySelector(
 	'.sidebar section.chat ul'
@@ -69,6 +71,10 @@ const initLobbyMsg = () => {
 			createSystemMessage(message);
 		});
 
+		socket.on('room:admin', () => {
+			createRoomAdmin();
+		});
+
 		if (userCountElement) {
 			socket.on('room:update:users', (userCount: number) => {
 				userCountElement.textContent = String(userCount);
@@ -81,6 +87,20 @@ const initLobbyMsg = () => {
 				createGifMessage(user, gif);
 			}
 		);
+	}
+};
+
+const createRoomAdmin = () => {
+	const waitingContainer: HTMLElement | null = document.querySelector('.waiting');
+	const button = document.createElement('button');
+	button.textContent = 'Start Game';
+
+	button.addEventListener('click', () => {
+		socket.emit('room:game:start');
+	});
+
+	if (waitingContainer) {
+		waitingContainer.appendChild(button);
 	}
 };
 
