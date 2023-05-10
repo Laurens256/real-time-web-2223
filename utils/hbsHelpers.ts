@@ -13,6 +13,10 @@ export default {
 		}
 	},
 
+	createBoard: (n: number) => {
+		return '<button aria-label="whack"></button>'.repeat(n);
+	},
+
 	eq: function() { return reduceOp(arguments, (a: any, b: any) => a === b); },
 	ne: function() { return reduceOp(arguments, (a: any, b: any) => a !== b); },
 	lt: function() { return reduceOp(arguments, (a: number, b: number) => a  <  b); },

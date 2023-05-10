@@ -1,0 +1,35 @@
+.lobbyview main {
+	height: 100%;
+	width: calc(100vw - var(--chat-width) - var(--sidebar-inset) * 3);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.lobbyview main .board {
+	box-sizing: content-box;
+	width: min(600px, 100%);
+	height: min(600px, 100%);
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(5, 1fr);
+	gap: 40px;
+	justify-content: center;
+	background-color: rgb(58, 129, 0);
+	padding: 5%;
+}
+
+.lobbyview main .board button {
+	border: none;
+	background-color: rgb(165, 85, 11);
+	border-radius: 50%;
+	box-shadow: inset 0 10px 0 7px rgb(53, 21, 6), inset 0 20px 20px 15px rgba(0, 0, 0, 0.3),
+		0 0 5px rgba(0, 0, 0, 0.5);
+	position: relative;
+	overflow: hidden;
+}
+
+.lobbyview main .board button.mole {
+	background-color: red;
+	box-shadow: none;
+}

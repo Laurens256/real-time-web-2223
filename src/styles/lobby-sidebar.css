@@ -1,8 +1,8 @@
 .lobbyview {
 	--chat-width: min(22rem, 96vw);
 	--sidebar-inset: min(1rem, 2vw);
-	width: calc(100vw - var(--chat-width) - var(--sidebar-inset) * 2);
-	min-height: 100vh;
+	margin: var(--sidebar-inset);
+	height: calc(100vh - var(--sidebar-inset) * 2);
 }
 
 /* ----------------------------- */
@@ -18,7 +18,7 @@
 	inset: var(--sidebar-inset) var(--sidebar-inset) var(--sidebar-inset) auto;
 	width: var(--chat-width);
 	display: grid;
-	/* als ik  upper-panle-height gebruik voor de eerste row doet hij raar dus domme calc zo */
+	/* als ik upper-panel-height gebruik voor de eerste row doet hij raar dus domme calc zo */
 	grid-template-rows: 1fr calc(100% - var(--upper-panel-height));
 	gap: 1rem;
 }
@@ -174,7 +174,7 @@
 
 .lobbyview aside section.chat > ul li a img {
 	max-width: 100%;
-	max-height: 30rem;
+	max-height: 20rem;
 	border-radius: 0.5rem;
 	outline: solid 0px var(--bg-color);
 	transition: all 0.15s ease-in-out;
