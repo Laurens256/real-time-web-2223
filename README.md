@@ -6,6 +6,7 @@ Pakkend verhaaltje hier nog
 
 - [Features](#features)
 - [Week 1](#week-1)
+- [Week 2](#week-2)
 - [Installation](#installation)
 
 ## Features
@@ -48,6 +49,30 @@ In week 1, most of my time was spent developing the technical aspects of the web
 <p align="center">
 	<img src="./docs/img/week_1.png" alt="game room">
 </p>
+
+## Week 2
+
+In week 2, I implemented the [Tenor Api](https://tenor.com/gifapi). Using the Tenor api, users can search for gifs and send them in the chat. The gif will then be displayed in the chat, and all users in the room will be able to see it. To toggle the gif search dialog, I made use of the relatively new `<dialog>` element. This element can be used as a native HTML modal which is great for accessibility.
+
+```html
+<dialog>
+	<section>
+		<label for="gif_search">Search Tenor</label>
+		<input
+			id="gif_search"
+			name="gif_search"
+			type="text"
+			value=""
+			placeholder="Search Tenor" />
+	</section>
+	<ul></ul>
+	<ul></ul>
+</dialog>
+```
+
+The following dialog can be toggled with Javascript using the `dialog.close()` and `dialog.show()` methods.
+
+## Week 3
 
 ## Installation
 
