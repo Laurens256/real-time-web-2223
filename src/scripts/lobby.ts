@@ -11,7 +11,8 @@ const gifSearchInput: HTMLInputElement | null = document.querySelector(
 const initLobbyScript = () => {
 	if (mainContainer && toggleChatButton && gifList) {
 		toggleChatButton.addEventListener('click', toggleChat);
-		loadTrendingTerms();
+
+		window.addEventListener('DOMContentLoaded', loadTrendingTerms);
 	} else if (toggleChatButton) {
 		toggleChatButton.remove();
 	}
@@ -64,7 +65,6 @@ const quickLink = (e: MouseEvent) => {
 };
 
 initLobbyScript();
-
 
 interface iGif {
 	id: string;

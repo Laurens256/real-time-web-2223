@@ -9,5 +9,6 @@ const roomRegex = /^\/rooms\/[a-zA-Z0-9]{6}$/;
 	if (roomRegex.test(path)) {
 		initLobby();
 		initGifs();
+		initMoleGame();
 	}
 })();

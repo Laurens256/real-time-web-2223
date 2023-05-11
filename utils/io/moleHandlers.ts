@@ -4,12 +4,12 @@ const moleHandlers = (io: any, socket: any) => {
 	socket.on('room:game:start', (holes: number) => {
 		const roomMembers = getRoomMembers(socket.room);
 
-		// todo: niet vergeten dit op 1 te zetten (of niet :3)
-		if (roomMembers.length > 0) {
+		// todo: niet vergeten dit uit te commenten of aan te passen
+		// if (roomMembers.length > 1) {
 			io.to(socket.room).emit('room:game:start', roomMembers);
 			togglePlay(socket.room, true);
 			game(holes, io, socket);
-		}
+		// }
 	});
 };
 
@@ -41,15 +41,16 @@ const game = (holes: number, io: any, socket: any) => {
 		io.to(socket.room).emit('room:game:stop');
 		togglePlay(socket.room, false);
 	}, 60000);
-
+	
 	// when a user whacks a mole, remove it from the active holes
 	socket.on('room:mole:whack', (hole: number) => {
+		console.log('whack');
 		io.to(socket.room).emit('room:mole:whack', hole);
-		
+	
 		if (activeHoles.has(hole)) {
 			io.to(socket.id).emit('room:game:points');
 		}
-
+	
 		activeHoles.delete(hole);
 	});
 };

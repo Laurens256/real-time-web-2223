@@ -1,15 +1,11 @@
+const mainGameContainer = document.querySelector('main')!;
 const initMoleGame = () => {
-	const mainGameContainer = document.querySelector('main');
-
-	if (mainGameContainer) {
-		// mainGameContainer.classList.remove('unstarted');
-		// mainGameContainer.classList.add('started');
-
+	socket.on('room:game:start', () => {
+		// initMoleGame();
 		mainGameContainer.className = 'started joined';
-		// mainGameContainer.classList.add('joined');
-	}
 
-	game();
+		game();
+	});
 };
 
 const holes = document.querySelectorAll(
@@ -19,9 +15,11 @@ const holes = document.querySelectorAll(
 const game = () => {
 	let points = 0;
 
-	holes.forEach((hole) => {
-		hole.addEventListener('click', whack);
-	});
+	if (mainGameContainer?.classList.contains('joined')) {
+		holes.forEach((hole) => {
+			hole.addEventListener('click', whack);
+		});
+	}
 
 	socket.on('room:mole:emerge', (hole: number) => {
 		holes[hole].classList.add('mole');
@@ -39,19 +37,10 @@ const game = () => {
 
 const whack = (e: MouseEvent) => {
 	const hole = e.currentTarget as HTMLButtonElement;
-	
+
 	if (hole.classList.contains('mole')) {
 		const holeIndex = Array.from(holes).indexOf(hole);
+
 		socket.emit('room:mole:whack', holeIndex);
 	}
 };
-
-socket.on('room:game:start', () => {
-	initMoleGame();
-});
-
-interface iUser {
-	id: string;
-	name: string;
-	admin: boolean;
-}
