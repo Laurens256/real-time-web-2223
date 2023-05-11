@@ -3,15 +3,20 @@ const initMoleGame = () => {
 	socket.on('room:join:success', (user: string, isPlaying: boolean) => {
 		if (isPlaying) {
 			mainGameContainer.className = 'started';
-			game();
+			startGame();
 		}
 	});
 
 	socket.on('room:game:start', () => {
-		// initMoleGame();
 		mainGameContainer.className = 'started joined';
 
-		game();
+		startGame();
+	});
+
+	socket.on('room:game:stop', () => {
+		mainGameContainer.className = 'unstarted';
+
+		stopGame();
 	});
 };
 
@@ -19,7 +24,7 @@ const holes = document.querySelectorAll(
 	'div.board > button'
 ) as NodeListOf<HTMLButtonElement>;
 
-const game = () => {
+const startGame = () => {
 	let points = 0;
 
 	if (mainGameContainer?.classList.contains('joined')) {
@@ -42,11 +47,18 @@ const game = () => {
 	});
 };
 
+const stopGame = () => {
+	holes.forEach((hole) => {
+		hole.removeEventListener('click', whack);
+		hole.classList.remove('mole');
+	});
+};
+
 const whack = (e: MouseEvent) => {
 	const hole = e.currentTarget as HTMLButtonElement;
 
-	if (hole.classList.contains('mole') && mainGameContainer.classList.contains('joined')) {
-		const holeIndex = Number(hole.dataset.index!);
+	if (hole.classList.contains('mole')) {
+		const holeIndex = Number(hole.dataset.index);
 
 		socket.emit('room:mole:whack', holeIndex);
 	}
