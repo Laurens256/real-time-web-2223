@@ -14,7 +14,12 @@ export default {
 	},
 
 	createBoard: (n: number) => {
-		return '<button aria-label="whack"></button>'.repeat(n);
+		let board = '';
+		for (let i = 0; i < n; i++) {
+			board += `<button data-index="${i}" aria-label="whack"></button>`;
+		}
+
+		return board;
 	},
 
 	eq: function() { return reduceOp(arguments, (a: any, b: any) => a === b); },

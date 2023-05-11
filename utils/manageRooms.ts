@@ -72,6 +72,13 @@ const getRoomMembers = (room: string) => {
 	return [];
 };
 
+const getRoomPlayState = (room: string) => {
+	if (room in rooms) {
+		return rooms[room].playing;
+	}
+	return false;
+};
+
 const characters = 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789';
 const charactersLength = characters.length;
 const generateRoomId = (): string => {
@@ -93,5 +100,6 @@ export {
 	userLeave,
 	getRoomMembers,
 	togglePlay,
-	getRoomAdmin
+	getRoomAdmin,
+	getRoomPlayState
 };

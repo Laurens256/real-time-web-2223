@@ -1,5 +1,12 @@
 const mainGameContainer = document.querySelector('main')!;
 const initMoleGame = () => {
+	socket.on('room:join:success', (user: string, isPlaying: boolean) => {
+		if (isPlaying) {
+			mainGameContainer.className = 'started';
+			game();
+		}
+	});
+
 	socket.on('room:game:start', () => {
 		// initMoleGame();
 		mainGameContainer.className = 'started joined';
@@ -38,8 +45,8 @@ const game = () => {
 const whack = (e: MouseEvent) => {
 	const hole = e.currentTarget as HTMLButtonElement;
 
-	if (hole.classList.contains('mole')) {
-		const holeIndex = Array.from(holes).indexOf(hole);
+	if (hole.classList.contains('mole') && mainGameContainer.classList.contains('joined')) {
+		const holeIndex = Number(hole.dataset.index!);
 
 		socket.emit('room:mole:whack', holeIndex);
 	}

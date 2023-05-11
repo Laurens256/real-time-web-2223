@@ -1,4 +1,4 @@
-import { roomExists, userJoin, userLeave, getRoomMembers, getRoomAdmin } from '../manageRooms.js';
+import { roomExists, userJoin, userLeave, getRoomMembers, getRoomAdmin, getRoomPlayState } from '../manageRooms.js';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 import { getCurrentTyping } from './ioUtils/currentlyTyping.js';
 
@@ -33,7 +33,7 @@ const chatHandlers = (io: any, socket: any) => {
 					`<nickname>${socket.user}</nickname> has joined the room`
 				);
 
-			socket.emit('room:join:success', socket.user);
+			socket.emit('room:join:success', socket.user, getRoomPlayState(socket.room));
 			io.to(socket.room).emit('room:update:users', getRoomMembers(socket.room).length);
 		} else {
 			socket.emit('room:join:error', 'Room does not exist');
