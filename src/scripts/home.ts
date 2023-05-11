@@ -53,9 +53,9 @@ const toggleFormAction = (e: MouseEvent) => {
 // save nickname to session storage so it can be used in the room
 const saveNickname = () => {
 	const input: HTMLInputElement | null = document.querySelector(`#nickname_input`);
-	const nickname = input?.value || '';
+	const tempNickname = input?.value || '';
 
-	sessionStorage.setItem('nickname', nickname);
+	sessionStorage.setItem('nickname', tempNickname);
 };
 
 initHomeScript();

@@ -1,4 +1,3 @@
-let nickName = '';
 const initLobby = () => {
 	const roomCode = window.location.pathname.split('/')[2];
 	socket.emit('room:join', { room: roomCode, nickname: setNickname() });
@@ -203,7 +202,6 @@ const checkPrevMessage = (newMsgUser: string) => {
 
 	if (prevMessage && prevMessage instanceof HTMLLIElement) {
 		const user = prevMessage.dataset.user;
-		console.log(user, nickName);
 		return user === newMsgUser;
 	}
 	return false;

@@ -6,7 +6,7 @@ const moleHandlers = (io: any, socket: any) => {
 
 		// todo: niet vergeten dit op 1 te zetten
 		if (roomMembers.length > 0) {
-			io.to(socket.room).emit('room:game:start');
+			io.to(socket.room).emit('room:game:start', roomMembers);
 		}
 	});
 };
