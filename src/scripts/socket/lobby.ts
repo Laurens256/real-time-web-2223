@@ -94,8 +94,10 @@ const createRoomAdmin = () => {
 	const button = document.createElement('button');
 	button.textContent = 'Start Game';
 
+	const holes = document.querySelectorAll('div.board > button');
+
 	button.addEventListener('click', () => {
-		socket.emit('room:game:start');
+		socket.emit('room:game:start', holes.length);
 	});
 
 	if (waitingContainer) {

@@ -1,4 +1,4 @@
-import { roomExists, userJoin, userLeave, getRoomMembers } from '../manageRooms.js';
+import { roomExists, userJoin, userLeave, getRoomMembers, getRoomAdmin } from '../manageRooms.js';
 import { uniqueNamesGenerator, adjectives, animals } from 'unique-names-generator';
 import { getCurrentTyping } from './ioUtils/currentlyTyping.js';
 
@@ -23,7 +23,6 @@ const chatHandlers = (io: any, socket: any) => {
 			userJoin(socket.room, { id: socket.id, name: socket.user, admin: isAdmin });
 
 			if (isAdmin) {
-				// socket.emit('room:admin');
 				io.to(socket.id).emit('room:admin');
 			}
 
@@ -62,6 +61,14 @@ const chatHandlers = (io: any, socket: any) => {
 	});
 
 	socket.on('disconnect', () => {
+		
+		// check if a new admin can be made when current admin leaves
+		if (socket.id === getRoomAdmin(socket.room)) {
+			const newAdmin = getRoomMembers(socket.room)[1];
+			if (newAdmin) {
+				io.to(newAdmin.id).emit('room:admin');
+			}
+		}
 		userLeave(socket.room, socket.id);
 
 		io.to(socket.room).emit(
