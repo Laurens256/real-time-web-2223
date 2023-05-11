@@ -14,7 +14,7 @@ const moleHandlers = (io: any, socket: any) => {
 
 	// when a user whacks a mole, remove it from the active holes
 	socket.on('room:mole:whack', (hole: number) => {
-		io.to(socket.room).emit('room:mole:whack', hole);
+		io.to(socket.room).emit('room:mole:whack', hole, true);
 
 		if (activeHoles.has(hole)) {
 			io.to(socket.id).emit('room:game:points');

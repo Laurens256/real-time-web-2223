@@ -37,8 +37,14 @@ const startGame = () => {
 		holes[hole].classList.add('mole');
 	});
 
-	socket.on('room:mole:whack', (hole: number) => {
-		holes[hole].classList.remove('mole');
+	socket.on('room:mole:whack', (hole: number, userWhacked = false) => {
+		if (userWhacked) {
+			holes[hole].classList.add('whacked');
+		}
+
+		setTimeout(() => {
+			holes[hole].classList.remove('mole', 'whacked');
+		}, 400);
 	});
 
 	socket.on('room:game:points', () => {
@@ -50,14 +56,14 @@ const startGame = () => {
 const stopGame = () => {
 	holes.forEach((hole) => {
 		hole.removeEventListener('click', whack);
-		hole.classList.remove('mole');
+		hole.classList.remove('mole', 'whacked');
 	});
 };
 
 const whack = (e: MouseEvent) => {
 	const hole = e.currentTarget as HTMLButtonElement;
 
-	if (hole.classList.contains('mole')) {
+	if (hole.classList.contains('mole') && !hole.classList.contains('whacked')) {
 		const holeIndex = Number(hole.dataset.index);
 
 		socket.emit('room:mole:whack', holeIndex);
