@@ -64,16 +64,20 @@ const stopGame = () => {
 
 const generateResults = (userPoints: [string, number][]) => {
 	const resultsDialog: HTMLDialogElement = document.querySelector('dialog.results')!;
-	const resultsList = resultsDialog.querySelector('ul')!;
+	const resultsList = resultsDialog.querySelector('ol')!;
 	resultsList.innerHTML = '';
 
-	userPoints.forEach(([user, points], index) => {
+	userPoints.forEach(([user, points]) => {
 		const listItem = document.createElement('li');
-		listItem.textContent = `Plaats ${index + 1}: ${user}: ${points} punten`;
+		const userSpan = document.createElement('span');
+
+		userSpan.textContent = user;
+
+		listItem.textContent = `${user}: ${points} punten`;
 		resultsList.appendChild(listItem);
 	});
 
-	resultsDialog.showModal();
+	resultsDialog.show();
 };
 
 const whack = (e: MouseEvent) => {
