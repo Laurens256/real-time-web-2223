@@ -5,7 +5,8 @@ const moleHandlers = (io: any, socket: any) => {
 		const roomMembers = getRoomMembers(socket.room);
 
 		roomMembers.forEach((member) => {
-			userScores[member.name] = 0;
+			userScores[socket.room] = {};
+			userScores[socket.room][member.name] = 0;
 		});
 
 		// todo: niet vergeten dit uit te commenten of aan te passen
@@ -22,7 +23,7 @@ const moleHandlers = (io: any, socket: any) => {
 		io.to(socket.room).emit('room:mole:whack', hole, true);
 
 		if (activeHoles.has(hole)) {
-			userScores[socket.user]++;
+			userScores[socket.room][socket.user]++;
 			io.to(socket.room).emit('room:game:points', userScores);
 			activeHoles.delete(hole);
 		}
@@ -30,7 +31,7 @@ const moleHandlers = (io: any, socket: any) => {
 };
 
 let currentPlayers = 0;
-let userScores: { [name: string]: number } = {};
+let userScores: { [room: string]: {[name: string]: number} } = {};
 let moleTimeout: ReturnType<typeof setTimeout>;
 const spawnMoles = (holes: number, io: any, socket: any, delay = 1500) => {
 	moleTimeout = setTimeout(() => {
@@ -73,11 +74,11 @@ const game = (holes: number, io: any, socket: any) => {
 		togglePlay(socket.room, false);
 		currentPlayers = 0;
 
-		const sortedPoints = Object.entries(userScores).sort((a, b) => b[1] - a[1]);
+		const sortedPoints = Object.entries(userScores[socket.room]).sort((a, b) => b[1] - a[1]);
 
 		io.to(socket.room).emit('room:game:stop', sortedPoints);
 
-		userScores = {};
+		userScores[socket.room] = {};
 	}, 40000);
 };
 

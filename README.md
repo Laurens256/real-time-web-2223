@@ -1,5 +1,9 @@
 # Real-Time Web - Whack a Mole
 
+<p align="center">
+	<img src="./docs/img/moles.png" alt="whack a mole">
+</p>
+
 Whack a Mole is a real-time multiplayer game where users can play a game of Whack a Mole with their friends. Users can create and join rooms with a private room code. Users are also able to chat and send gifs in the chat.
 
 ## Table of Contents
