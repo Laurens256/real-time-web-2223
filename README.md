@@ -1,12 +1,14 @@
-# Real-Time Web @cmda-minor-web 2022 - 2023
+# Real-Time Web - Whack a Mole
 
-Pakkend verhaaltje hier nog
+Whack a Mole is a real-time multiplayer game where users can play a game of Whack a Mole with their friends. Users can create and join rooms with a private room code. Users are also able to chat and send gifs in the chat.
 
 ## Table of Contents
 
 - [Features](#features)
 - [Week 1](#week-1)
 - [Week 2](#week-2)
+- [Week 3](#week-3)
+- [Code Highlights](#code-highlights)
 - [Installation](#installation)
 
 ## Features
@@ -17,7 +19,8 @@ Pakkend verhaaltje hier nog
 |   Custom usernames    |   ✅   |
 |    Seperate rooms     |   ✅   |
 | Create and join rooms |   ✅   |
-| Play game(s) in rooms |   🚧   |
+|  Search and send gifs |   ✅   |
+| Play game(s) in rooms |   ✅   |
 
 ## Week 1
 
@@ -73,6 +76,123 @@ In week 2, I implemented the [Tenor Api](https://tenor.com/gifapi). Using the Te
 The following dialog can be toggled with Javascript using the `dialog.close()` and `dialog.show()` methods.
 
 ## Week 3
+
+In week 3 I finally started working on my Whack a Mole game. I decided to go with this game because it's relatively simple to make, and I didn't have a lot of time left. The moles are controlled by the server, and the clients can send requests to the server to "whack" the mole. The client and server both check if the hole is valid, and if it is the user will get a point. The game lasts 40 seconds (might change) and the user who whacked the most moles wins. Below is the server side code responsible for spawning moles
+
+```ts
+let currentPlayers = 0;
+let moleTimeout: ReturnType<typeof setTimeout>;
+const spawnMoles = (holes: number, io: any, socket: any, delay = 1500) => {
+	moleTimeout = setTimeout(() => {
+		// get a random hole
+		const randomHole = Math.floor(Math.random() * holes);
+
+		// if the hole is not active, activate it
+		if (!activeHoles.has(randomHole)) {
+			activeHoles.add(randomHole);
+			io.to(socket.room).emit('room:mole:emerge', randomHole);
+		}
+
+		// if the hole is still active after n delay, deactivate it
+		setTimeout(() => {
+			if (activeHoles.has(randomHole)) {
+				io.to(socket.room).emit('room:mole:whack', randomHole);
+
+				// nested timeout so the mole can still be whacked as it's going down
+				setTimeout(() => {
+					activeHoles.delete(randomHole);
+				}, 400);
+			}
+		}, 1000);
+
+		const delaySubtraction = Math.min(50 * currentPlayers, 150);
+		const newDelay = delay - delaySubtraction > 300 ? delay - delaySubtraction : 300;
+		// spawn another mole with a shorter delay
+		spawnMoles(holes, io, socket, newDelay);
+	}, delay);
+};
+```
+
+The code above will spawn a mole in a random hole, and after a certain amount of time it will despawn the mole if it has not been whacked. The delay between spawning and despawning a mole will decrease over time, making the game harder.
+
+## Code Highlights
+
+Below are some cool pieces of code that highlight some of the features of this project.
+
+<details>
+  <summary>Calculate prime numbers 😼</summary>
+
+```ts
+console.log('hello world');
+```
+
+</details>
+
+<details>
+  <summary>(Client) Searching gifs on Tenor without making too many api calls while typing</summary>
+
+```ts
+// set a timeout to prevent the api from being called too often
+let searchDelay: ReturnType<typeof setTimeout>;
+const searchGifs = async (delay: number) => {
+	clearTimeout(searchDelay);
+
+	searchDelay = setTimeout(async () => {
+		const query = gifSearchInput!.value;
+		if (!query || query.length < 2) {
+			gifContainer!.innerHTML = '';
+			gifDialog!.classList.add('empty');
+			return;
+		}
+
+		...
+
+	}, delay);
+};
+```
+
+</details>
+
+<details>
+  <summary>(Build)Gulp build script for compiling and bundling Typescript</summary>
+
+```ts
+import gulp from 'gulp';
+import ts from 'gulp-typescript';
+import uglify from 'gulp-uglify';
+import concat from 'gulp-concat';
+
+const tsConfig1 = ts.createProject('src/scripts/tsconfig.json');
+const tsConfig2 = ts.createProject('src/scripts/tsconfig.json');
+
+// minify all ts files except ts files under socket folder
+(() => {
+	return gulp
+		.src(['src/scripts/**/*.ts', '!src/scripts/socket/*.ts'], { base: './src' })
+		.pipe(tsConfig1())
+		.pipe(uglify({ mangle: true }))
+		.pipe(gulp.dest('./dist/public/'));
+})();
+
+// files in socket folder get minified and bundled into socket.js, make sure socket.ts is first, then all other ts files except manager.ts, then manager.ts
+(() => {
+	return gulp
+		.src(
+			[
+				'src/scripts/socket/socket.ts',
+				'src/scripts/socket/!(manager).ts',
+				'src/scripts/socket/manager.ts'
+			],
+			{ base: './src' }
+		)
+		.pipe(tsConfig2())
+		.pipe(concat('socket.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest('./dist/public/scripts'));
+})();
+```
+
+</details>
 
 ## Installation
 
