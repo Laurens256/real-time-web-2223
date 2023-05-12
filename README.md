@@ -8,8 +8,11 @@ Whack a Mole is a real-time multiplayer game where users can play a game of Whac
 - [Week 1](#week-1)
 - [Week 2](#week-2)
 - [Week 3](#week-3)
-- [Code Highlights](#code-highlights)
+- [Tenor api](#tenor-api)
+- [Data life cycle](#data-life-cycle)
+- [Sources / Inspiration](#sources--inspiration)
 - [Installation](#installation)
+- [License](#license)
 
 ## Features
 
@@ -19,8 +22,8 @@ Whack a Mole is a real-time multiplayer game where users can play a game of Whac
 |   Custom usernames    |   ✅   |
 |    Seperate rooms     |   ✅   |
 | Create and join rooms |   ✅   |
-|  Search and send gifs |   ✅   |
-| Play game(s) in rooms |   ✅   |
+| Search and send gifs  |   ✅   |
+|   Play Whack a Mole   |   ✅   |
 
 ## Week 1
 
@@ -101,7 +104,7 @@ const spawnMoles = (holes: number, io: any, socket: any, delay = 1500) => {
 				// nested timeout so the mole can still be whacked as it's going down
 				setTimeout(() => {
 					activeHoles.delete(randomHole);
-				}, 400);
+				}, 300);
 			}
 		}, 1000);
 
@@ -115,84 +118,62 @@ const spawnMoles = (holes: number, io: any, socket: any, delay = 1500) => {
 
 The code above will spawn a mole in a random hole, and after a certain amount of time it will despawn the mole if it has not been whacked. The delay between spawning and despawning a mole will decrease over time, making the game harder.
 
-## Code Highlights
+## Tenor api
 
-Below are some cool pieces of code that highlight some of the features of this project.
-
-<details>
-  <summary>Calculate prime numbers 😼</summary>
-
-```ts
-console.log('hello world');
-```
-
-</details>
-
-<details>
-  <summary>(Client) Searching gifs on Tenor without making too many api calls while typing</summary>
+The Tenor api is used to search for gifs and send them in the chat. Tenor is one of the bigger gif api's, along with [Giphy](https://developers.giphy.com/docs/api/). I chose to use Tenor because it seemed easier to use and I like gifs on there more. The Tenor api endpoint I mostly use in my application is the search endpoint. This endpoint takes a query and returns a list of gifs. To make sure I don't make a request to the api for every letter the user types, I use the following debounce function.
 
 ```ts
 // set a timeout to prevent the api from being called too often
 let searchDelay: ReturnType<typeof setTimeout>;
 const searchGifs = async (delay: number) => {
 	clearTimeout(searchDelay);
-
 	searchDelay = setTimeout(async () => {
 		const query = gifSearchInput!.value;
 		if (!query || query.length < 2) {
-			gifContainer!.innerHTML = '';
-			gifDialog!.classList.add('empty');
 			return;
 		}
-
-		...
-
+		// ...
 	}, delay);
 };
 ```
 
-</details>
+The function above will only call the api if the user has not typed anything for n amount of ms. The reason delay is a parameter, is because sometimes we'll want to call the api immediately. For example when a user presses one of the "recommended" categories.
 
-<details>
-  <summary>(Build)Gulp build script for compiling and bundling Typescript</summary>
+### Pro tip:
 
-```ts
-import gulp from 'gulp';
-import ts from 'gulp-typescript';
-import uglify from 'gulp-uglify';
-import concat from 'gulp-concat';
+Use a newer version (>= 77) of Firefox with the `layout.css.grid-template-masonry-value.enabled` experimental flag enabled to view the gifs in a cool masonry layout😎.
 
-const tsConfig1 = ts.createProject('src/scripts/tsconfig.json');
-const tsConfig2 = ts.createProject('src/scripts/tsconfig.json');
+<p align="center">
+	<img src="./docs/img/gif-masonry.png" alt="masonry grid layout">
+</p>
 
-// minify all ts files except ts files under socket folder
-(() => {
-	return gulp
-		.src(['src/scripts/**/*.ts', '!src/scripts/socket/*.ts'], { base: './src' })
-		.pipe(tsConfig1())
-		.pipe(uglify({ mangle: true }))
-		.pipe(gulp.dest('./dist/public/'));
-})();
+## Data life cycle
 
-// files in socket folder get minified and bundled into socket.js, make sure socket.ts is first, then all other ts files except manager.ts, then manager.ts
-(() => {
-	return gulp
-		.src(
-			[
-				'src/scripts/socket/socket.ts',
-				'src/scripts/socket/!(manager).ts',
-				'src/scripts/socket/manager.ts'
-			],
-			{ base: './src' }
-		)
-		.pipe(tsConfig2())
-		.pipe(concat('socket.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest('./dist/public/scripts'));
-})();
-```
+## Socket events
 
-</details>
+| Event name          | Description                                                                 |
+| ------------------- | --------------------------------------------------------------------------- |
+| `room:join`         | Used to pass username and room to server                                    |
+| `room:join:success` | Used to confirm joining the room was succesful                              |
+| `room:join:error`   | Used to indicate joining the room failed (unused)                           |
+| `room:update:users` | Used to update the user- count and list of each room                        |
+| `room:disconnect`   | Used to emit 'user has left' message                                        |
+| `room:admin`        | Used to indicate a new user has been made admin of the room                 |
+| `room:msg`          | Used to emit messages                                                       |
+| `room:msg:system`   | Used to emit system messages                                                |
+| `room:msg: gif`     | Used to emit gifs                                                           |
+| `room:typing:start` | Used to indicate a user is currently typing in the chat                     |
+| `room:typing:stop`  | Used to indicate a user has stopped typing in the chat                      |
+| `room:typing`       | Used to update the list of users that are typing for the clients            |
+| `room:game:start`   | Used to indicate the game has started                                       |
+| `room:game:stop`    | Used to indicate the game has stopped, also emits the scores to each client |
+| `room:mole:emerge`  | Used to emit to the clients that a mole has emerged                         |
+| `room:mole:whack`   | Used to update the score and the board of moles                             |
+
+## Sources / Inspiration
+
+- [Tenor API](https://tenor.com/gifapi)
+- [Whack a Mole](https://github.com/0shuvo0/whack-a-mole)
 
 ## Installation
 
@@ -229,9 +210,3 @@ http://localhost:3000/
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-<!-- Start out with a title and a description -->
-
-<!-- Add a nice image here at the end of the week, showing off your shiny frontend 📸 -->
-
-<!-- This would be a good place for your data life cycle ♻️-->
