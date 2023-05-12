@@ -6,7 +6,6 @@ const moleHandlers = (io: any, socket: any) => {
 
 		roomMembers.forEach((member) => {
 			userScores[member.name] = 0;
-			console.log(userScores);
 		});
 
 		// todo: niet vergeten dit uit te commenten of aan te passen
@@ -74,7 +73,9 @@ const game = (holes: number, io: any, socket: any) => {
 	// after n ms, stop the game
 	setTimeout(() => {
 		clearTimeout(moleTimeout);
-		io.to(socket.room).emit('room:game:stop', userScores);
+		const sortedPoints = Object.entries(userScores).sort((a, b) => b[1] - a[1]);
+
+		io.to(socket.room).emit('room:game:stop', sortedPoints);
 		togglePlay(socket.room, false);
 
 		userScores = {};

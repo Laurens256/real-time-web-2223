@@ -13,7 +13,7 @@ const initMoleGame = () => {
 		startGame();
 	});
 
-	socket.on('room:game:stop', (userPoints: { [name: string]: number }) => {
+	socket.on('room:game:stop', (userPoints: [string, number][]) => {
 		stopGame();
 		generateResults(userPoints);
 	});
@@ -59,18 +59,15 @@ const stopGame = () => {
 	});
 };
 
-const generateResults = (userPoints: { [name: string]: number }) => {
+const generateResults = (userPoints: [string, number][]) => {
 	const resultsDialog: HTMLDialogElement = document.querySelector('dialog.results')!;
 	const resultsList = resultsDialog.querySelector('ul')!;
 	resultsList.innerHTML = '';
 
-	// sort the user points by highest score
-	const sortedUserPoints = Object.entries(userPoints).sort((a, b) => b[1] - a[1]);
-
-	Object.entries(sortedUserPoints).forEach(([name, points]) => {
-		const li = document.createElement('li');
-		li.textContent = `${name}: ${points}`;
-		resultsList.appendChild(li);
+	userPoints.forEach(([user, points], index) => {
+		const listItem = document.createElement('li');
+		listItem.textContent = `Plaats ${index+1}: ${user}: ${points} punten`;
+		resultsList.appendChild(listItem);
 	});
 
 	resultsDialog.showModal();
