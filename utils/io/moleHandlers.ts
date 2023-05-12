@@ -4,18 +4,15 @@ const moleHandlers = (io: any, socket: any) => {
 	socket.on('room:game:start', (holes: number) => {
 		const roomMembers = getRoomMembers(socket.room);
 
+		userScores[socket.room] = {};
 		roomMembers.forEach((member) => {
-			userScores[socket.room] = {};
 			userScores[socket.room][member.name] = 0;
 		});
 
-		// todo: niet vergeten dit uit te commenten of aan te passen
-		// if (roomMembers.length > 1) {
 		io.to(socket.room).emit('room:game:start');
 		togglePlay(socket.room, true);
 		game(holes, io, socket);
 		currentPlayers = roomMembers.length;
-		// }
 	});
 
 	// when a user whacks a mole, remove it from the active holes
@@ -31,7 +28,7 @@ const moleHandlers = (io: any, socket: any) => {
 };
 
 let currentPlayers = 0;
-let userScores: { [room: string]: {[name: string]: number} } = {};
+let userScores: { [room: string]: { [name: string]: number } } = {};
 let moleTimeout: ReturnType<typeof setTimeout>;
 const spawnMoles = (holes: number, io: any, socket: any, delay = 1500) => {
 	moleTimeout = setTimeout(() => {
@@ -74,7 +71,9 @@ const game = (holes: number, io: any, socket: any) => {
 		togglePlay(socket.room, false);
 		currentPlayers = 0;
 
-		const sortedPoints = Object.entries(userScores[socket.room]).sort((a, b) => b[1] - a[1]);
+		const sortedPoints = Object.entries(userScores[socket.room]).sort(
+			(a, b) => b[1] - a[1]
+		);
 
 		io.to(socket.room).emit('room:game:stop', sortedPoints);
 
