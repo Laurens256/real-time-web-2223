@@ -6,7 +6,7 @@ import gifs from './gifs.js';
 
 const routes = [
 	{ path: '/rooms/:id', view: lobby, viewName: 'LobbyView' },
-	{ path: '/rooms', view: rooms, viewName: 'RoomView' },
+	// { path: '/rooms', view: rooms, viewName: 'RoomView' },
 	{ path: '/', view: home, viewName: 'HomeView' },
 
 	// api routes

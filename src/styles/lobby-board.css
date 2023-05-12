@@ -68,3 +68,23 @@
 .lobbyview main .board button:not(.whackable):not(.inactive)::after {
 	background-image: url(/img/mole-whacked.png);
 }
+
+
+/* game over dialog */
+.lobbyview dialog.results {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	background-color: var(--bg-color-panel);
+	border-radius: 1rem;
+	height: min(30rem, 95%);
+	width: min(30rem, 95%);
+	max-width: 95%;
+	border: none;
+}
+
+.lobbyview dialog.results ul {
+	
+}

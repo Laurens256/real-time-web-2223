@@ -77,8 +77,10 @@ const game = (holes: number, io: any, socket: any) => {
 		io.to(socket.room).emit('room:game:stop', sortedPoints);
 
 		userScores = {};
-	// }, 10000);
-	}, 40000);
+		// }, 10000);
+	}, 500);
+	// }, 5000);
+	// }, 40000);
 };
 
 export { moleHandlers };

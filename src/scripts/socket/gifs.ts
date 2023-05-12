@@ -11,11 +11,11 @@ const initGifs = () => {
 };
 
 const toggleGifDialogBtn = document.querySelector('form > div button:first-of-type');
-const gifDialog: HTMLDialogElement | null = document.querySelector('dialog');
+const gifDialog: HTMLDialogElement | null = document.querySelector('dialog.gifdialog');
 const gifSearchInput: HTMLInputElement | null = document.querySelector(
-	'dialog input#gif_search'
+	'dialog.gifdialog input#gif_search'
 );
-const gifContainer = document.querySelector('dialog ul');
+const gifContainer = document.querySelector('dialog.gifdialog ul');
 
 const toggleGifDialog = () => {
 	if (gifDialog!.open) {

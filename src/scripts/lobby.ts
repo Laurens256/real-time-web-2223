@@ -3,18 +3,32 @@ const toggleChatButton: HTMLButtonElement | null = document.querySelector(
 	'.sidebar section.chat header button'
 );
 
-const gifList = document.querySelector('dialog ul:last-of-type');
+const gifList = document.querySelector('dialog.gifdialog ul:last-of-type');
 const gifSearchInput: HTMLInputElement | null = document.querySelector(
-	'dialog input#gif_search'
+	'dialog.gifdialog input#gif_search'
 );
 
 const initLobbyScript = () => {
+	// chat and gif stuff
 	if (mainContainer && toggleChatButton && gifList) {
 		toggleChatButton.addEventListener('click', toggleChat);
 
 		window.addEventListener('DOMContentLoaded', loadTrendingTerms);
 	} else if (toggleChatButton) {
 		toggleChatButton.remove();
+	}
+
+	// game over dialog stuff
+	const resultsDialog: HTMLDialogElement | null =
+		document.querySelector('dialog.results');
+	const closeResultsButton: HTMLButtonElement | null = document.querySelector(
+		'dialog.results button'
+	);
+
+	if (resultsDialog && closeResultsButton) {
+		closeResultsButton.addEventListener('click', () => {
+			resultsDialog.close();
+		});
 	}
 };
 
