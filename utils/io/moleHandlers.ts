@@ -13,6 +13,7 @@ const moleHandlers = (io: any, socket: any) => {
 		io.to(socket.room).emit('room:game:start');
 		togglePlay(socket.room, true);
 		game(holes, io, socket);
+		currentPlayers = roomMembers.length;
 		// }
 	});
 
@@ -28,17 +29,10 @@ const moleHandlers = (io: any, socket: any) => {
 	});
 };
 
+let currentPlayers = 0;
 let userScores: { [name: string]: number } = {};
 let moleTimeout: ReturnType<typeof setTimeout>;
-const spawnMoles = (
-	holes: number,
-	io: any,
-	socket: any,
-	delay = 1500 / getRoomMembers(socket.room).length
-) => {
-	if (delay < 300) {
-		delay = 300;
-	}
+const spawnMoles = (holes: number, io: any, socket: any, delay = 1500) => {
 	moleTimeout = setTimeout(() => {
 		// get a random hole
 		const randomHole = Math.floor(Math.random() * holes);
@@ -53,7 +47,7 @@ const spawnMoles = (
 		setTimeout(() => {
 			if (activeHoles.has(randomHole)) {
 				io.to(socket.room).emit('room:mole:whack', randomHole);
-				
+
 				// nested timeout so the mole can still be whacked as it's going down
 				setTimeout(() => {
 					activeHoles.delete(randomHole);
@@ -61,8 +55,10 @@ const spawnMoles = (
 			}
 		}, 1000);
 
+		const delaySubtraction = Math.min(50 * currentPlayers, 150);
+		const newDelay = delay - delaySubtraction > 300 ? delay - delaySubtraction : 300;
 		// spawn another mole with a shorter delay
-		spawnMoles(holes, io, socket, delay - 50);
+		spawnMoles(holes, io, socket, newDelay);
 	}, delay);
 };
 
@@ -73,14 +69,16 @@ const game = (holes: number, io: any, socket: any) => {
 	// after n ms, stop the game
 	setTimeout(() => {
 		clearTimeout(moleTimeout);
+		togglePlay(socket.room, false);
+		currentPlayers = 0;
+
 		const sortedPoints = Object.entries(userScores).sort((a, b) => b[1] - a[1]);
 
 		io.to(socket.room).emit('room:game:stop', sortedPoints);
-		togglePlay(socket.room, false);
 
 		userScores = {};
-	}, 10000);
-	// }, 40000);
+	// }, 10000);
+	}, 40000);
 };
 
 export { moleHandlers };

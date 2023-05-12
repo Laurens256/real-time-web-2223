@@ -34,20 +34,23 @@ const startGame = () => {
 		holes[hole].classList.add('mole', 'whackable');
 	});
 
-
 	socket.on('room:mole:whack', (hole: number, userWhacked = false) => {
 		if (userWhacked) {
 			holes[hole].classList.remove('whackable');
+		} else {
+			setTimeout(() => {
+				holes[hole].classList.remove('whackable');
+				holes[hole].classList.add('inactive');
+
+				setTimeout(() => {
+					holes[hole].classList.remove('inactive');
+				}, 150);
+			}, 500);
 		}
 
 		setTimeout(() => {
 			holes[hole].classList.remove('mole');
-
-			setTimeout(() => {
-				holes[hole].classList.remove('whackable');
-			}, 300);
-
-		}, 400);
+		}, 300);
 	});
 };
 
@@ -55,7 +58,7 @@ const stopGame = () => {
 	mainGameContainer.className = 'unstarted';
 	holes.forEach((hole) => {
 		hole.removeEventListener('click', whack);
-		hole.classList.remove('mole', 'whackable');
+		hole.classList.remove('mole', 'whackable', 'inactive');
 	});
 };
 
@@ -66,7 +69,7 @@ const generateResults = (userPoints: [string, number][]) => {
 
 	userPoints.forEach(([user, points], index) => {
 		const listItem = document.createElement('li');
-		listItem.textContent = `Plaats ${index+1}: ${user}: ${points} punten`;
+		listItem.textContent = `Plaats ${index + 1}: ${user}: ${points} punten`;
 		resultsList.appendChild(listItem);
 	});
 
@@ -76,7 +79,7 @@ const generateResults = (userPoints: [string, number][]) => {
 const whack = (e: MouseEvent) => {
 	const hole = e.currentTarget as HTMLButtonElement;
 
-	if (hole.classList.contains('mole') && hole.classList.contains('whackable')) {
+	if (hole.classList.contains('whackable')) {
 		const holeIndex = Number(hole.dataset.index);
 
 		socket.emit('room:mole:whack', holeIndex);

@@ -65,6 +65,6 @@
 	transition: top 0.3s ease-in-out;
 }
 
-.lobbyview main .board button:not(.whackable)::after {
+.lobbyview main .board button:not(.whackable):not(.inactive)::after {
 	background-image: url(/img/mole-whacked.png);
 }
