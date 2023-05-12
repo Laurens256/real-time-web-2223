@@ -7,6 +7,8 @@
 	background-color: var(--bg-color-panel);
 	padding: 2rem;
 	border-radius: 1rem;
+	min-width: 20rem;
+	max-width: 95%;
 }
 
 .errorview a {

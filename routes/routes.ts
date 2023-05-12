@@ -1,6 +1,6 @@
 import home from './home.js';
-import rooms from './rooms.js';
 import lobby from './lobby.js';
+import error from './error.js';
 
 import gifs from './gifs.js';
 
@@ -13,7 +13,7 @@ const routes = [
 	{ path: '/api/gifs/:type', view: gifs, viewName: '' },
 	// { path: '/api/gifs', view: gifs, viewName: '' },
 
-	// { path: '*', view: error, viewName: 'ErrorView' }
+	{ path: '*', view: error, viewName: 'ErrorView' }
 ];
 
 export default routes;
