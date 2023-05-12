@@ -77,7 +77,7 @@ const game = (holes: number, io: any, socket: any) => {
 
 		io.to(socket.room).emit('room:game:stop', sortedPoints);
 
-		userScores[socket.room] = {};
+		delete userScores[socket.room];
 	}, 40000);
 };
 

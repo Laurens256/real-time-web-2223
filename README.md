@@ -153,6 +153,18 @@ Use a newer version (>= 77) of Firefox with the `layout.css.grid-template-masonr
 
 ## Data life cycle
 
+The data life cycle of a website shows the flow of data through the application. The data life cycle shows how the data flows from the client to the server and back to the client. The data life cycle also shows how and when data from external api's may be fetched. The data life cycle of my application is shown below.
+
+<p align="center">
+	<img src="./docs/img/data-cycle.png" alt="data life cycle">
+</p>
+
+**Quick summary:** When a user creates a room, a request is sent to the server. The server will then create a room and send a response back to the client with the room code to which the client will be redirected. When the client joins the room, they will be the first to join and will automatically become the room admin. In this room the client can send messages and gifs. When the client sends a message, the message will be sent to the server which will then emit the message to all clients in the room. To send a gif, clients first enter a query which gets passed onto the server and forwarded to the Tenor api. The Tenor api will then return a list of gifs which will be sent back to the client. The client can then select a gif which will be sent to the server and emitted to all clients in the room.
+
+Games can be started with one or more people present in the room. When a game is started by the admin, the server will spawn moles in random holes. The server will then send the hole numbers to the clients which will then spawn the moles on their screen. When a user clicks on a mole, the client will send a request to the server to whack the mole. The server will then check if the hole is valid and if it is, the server will emit the whacked mole to all clients in the room, making it dissapear. When the game is over, the server will emit the scores to all clients in the room. The client will then show the scores and the user with the highest score will be declared the winner.
+
+Of course there's a lot more going on in the application, but this is the general flow of data.
+
 ## Socket events
 
 | Event name          | Description                                                                 |
@@ -165,7 +177,7 @@ Use a newer version (>= 77) of Firefox with the `layout.css.grid-template-masonr
 | `room:admin`        | Used to indicate a new user has been made admin of the room                 |
 | `room:msg`          | Used to emit messages                                                       |
 | `room:msg:system`   | Used to emit system messages                                                |
-| `room:msg: gif`     | Used to emit gifs                                                           |
+| `room:msg:gif`      | Used to emit gifs                                                           |
 | `room:typing:start` | Used to indicate a user is currently typing in the chat                     |
 | `room:typing:stop`  | Used to indicate a user has stopped typing in the chat                      |
 | `room:typing`       | Used to update the list of users that are typing for the clients            |
@@ -177,7 +189,7 @@ Use a newer version (>= 77) of Firefox with the `layout.css.grid-template-masonr
 ## Sources / Inspiration
 
 - [Tenor API](https://tenor.com/gifapi)
-- [Whack a Mole](https://github.com/0shuvo0/whack-a-mole)
+- [Whack a Mole images](https://github.com/0shuvo0/whack-a-mole)
 
 ## Installation
 
