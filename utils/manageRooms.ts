@@ -21,7 +21,7 @@ const togglePlay = (room: string, playing: boolean) => {
 };
 
 const roomExists = (room: string) => {
-	return rooms[room] ? true : false;
+	return rooms[room.toUpperCase()] ? true : false;
 };
 
 const destroyRoom = (room: string) => {

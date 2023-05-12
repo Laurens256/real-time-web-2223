@@ -35,7 +35,7 @@ const handleFormSubmit = async (e: SubmitEvent) => {
 			})
 		).text();
 	} else {
-		room = joinRoomInput?.value || '';
+		room = joinRoomInput?.value.toUpperCase() || '';
 	}
 	window.location.href = `/rooms/${room}`;
 };

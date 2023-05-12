@@ -1,5 +1,5 @@
 const initLobby = () => {
-	const roomCode = window.location.pathname.split('/')[2];
+	const roomCode = window.location.pathname.split('/')[2].toUpperCase();
 	socket.emit('room:join', { room: roomCode, nickname: setNickname() });
 
 	socket.on('room:join:success', (user: string) => {
@@ -91,6 +91,12 @@ const initLobbyMsg = () => {
 
 const createRoomAdmin = () => {
 	const waitingContainer: HTMLElement | null = document.querySelector('.waiting');
+	const waitingMessage: HTMLElement | null = document.querySelector('.waiting h2');
+
+	if (waitingMessage) {
+		waitingMessage.textContent = 'Click to start';
+	}
+
 	const button = document.createElement('button');
 	button.textContent = 'Start Game';
 

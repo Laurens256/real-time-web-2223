@@ -14,7 +14,7 @@ router.get('/', async (req: iReqWithParams, res) => {
 	} else if (roomExists(req.params.id)) {
 		return res.render('lobby', {
 			...res.locals,
-			room: req.params.id
+			room: req.params.id.toUpperCase()
 		});
 	}
 

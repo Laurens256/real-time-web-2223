@@ -16,6 +16,34 @@
 	background-color: var(--bg-color-panel);
 	border-radius: 10px;
 	padding: 2rem 1rem;
+	min-width: 25rem;
+}
+
+.lobbyview main section.waiting h2 {
+	text-align: center;
+}
+
+.lobbyview main section.waiting button {
+	display: block;
+	margin: 0 auto;
+	width: 7rem;
+	max-width: 100%;
+	min-width: fit-content;
+	background-color: var(--bg-color);
+	color: var(--white);
+	border: solid 2px var(--white);
+	transition: all 0.2s ease-in-out;
+	border-radius: .5rem;
+	height: 3rem;
+	margin-top: 2rem;
+	font-size: 1.1rem;
+}
+
+.lobbyview main section.waiting button:hover,
+.lobbyview main section.waiting button:focus-visible {
+	background-color: var(--white);
+	color: var(--bg-color);
+	border-color: var(--bg-color);
 }
 
 .lobbyview main .board {
@@ -70,7 +98,6 @@
 	background-image: url(/img/mole-whacked.png);
 }
 
-
 /* game over dialog */
 .lobbyview dialog.results {
 	position: absolute;
@@ -87,7 +114,7 @@
 	padding: 1rem;
 
 	--heading-height: 2rem;
-	--button-height: 2rem;
+	--button-height: 3rem;
 }
 
 .lobbyview dialog.results h2 {
@@ -101,6 +128,27 @@
 	overflow-y: auto;
 }
 
-.lobbyview dialog.results ol li span {
+.lobbyview dialog.results ol li span.user {
 	font-weight: bold;
+}
+
+.lobbyview dialog.results button {
+	height: var(--button-height);
+	width: 10rem;
+	min-width: fit-content;
+	margin: 0 auto;
+	display: block;
+	background-color: var(--bg-color);
+	border: solid 2px var(--bg-color-panel);
+	transition: all 0.2s ease-in-out;
+	color: var(--white);
+	font-size: 1.1rem;
+	border-radius: 0.6rem;
+}
+
+.lobbyview dialog.results button:hover,
+.lobbyview dialog.results button:focus-visible {
+	background-color: var(--bg-color-panel);
+	border-color: var(--bg-color);
+	color: var(--text-color);
 }

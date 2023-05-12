@@ -58,6 +58,7 @@
 
 .lobbyview aside section.info div.user-count-container svg {
 	height: 100%;
+	fill: var(--text-color);
 }
 
 .lobbyview aside section.chat {

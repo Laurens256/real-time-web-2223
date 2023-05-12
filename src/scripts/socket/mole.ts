@@ -70,10 +70,16 @@ const generateResults = (userPoints: [string, number][]) => {
 	userPoints.forEach(([user, points]) => {
 		const listItem = document.createElement('li');
 		const userSpan = document.createElement('span');
+		const pointsSpan = document.createElement('span');
 
-		userSpan.textContent = user;
+		userSpan.classList.add('user');
 
-		listItem.textContent = `${user}: ${points} punten`;
+		userSpan.textContent = `${user}: `;
+		pointsSpan.textContent = `${points.toString()} ${points === 1 ? 'mole' : 'moles'}`;
+
+		listItem.appendChild(userSpan);
+		listItem.appendChild(pointsSpan);
+
 		resultsList.appendChild(listItem);
 	});
 
