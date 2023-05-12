@@ -4,12 +4,24 @@
 	left: 50%;
 	transform: translate(-50%, -50%);
 	text-align: center;
+	background-color: var(--bg-color-panel);
+	padding: 2rem;
+	border-radius: 1rem;
 }
 
 .errorview a {
-	margin-top: .5rem;
+	margin-top: 1.5rem;
 	display: inline-block;
-	border: solid 1px var(--text-color);
+	border: solid 2px var(--bg-color);
 	width: 10rem;
 	padding: .5rem;
+	border-radius: .4rem;
+	transition: all .2s ease-in-out;
+}
+
+.errorview a:hover,
+.errorview a:focus-visible {
+	background-color: var(--bg-color);
+	color: var(--white);
+	border-color: var(--bg-color);
 }

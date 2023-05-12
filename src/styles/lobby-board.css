@@ -119,6 +119,7 @@
 
 .lobbyview dialog.results h2 {
 	text-align: center;
+	font-size: 1.5rem;
 }
 
 .lobbyview dialog.results ol {
@@ -126,10 +127,7 @@
 	height: calc(100% - var(--heading-height) - var(--button-height) - 2rem);
 	margin-top: 1rem;
 	overflow-y: auto;
-}
-
-.lobbyview dialog.results ol li span.user {
-	font-weight: bold;
+	font-size: 1.3rem;
 }
 
 .lobbyview dialog.results button {

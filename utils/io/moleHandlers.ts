@@ -64,21 +64,22 @@ const spawnMoles = (holes: number, io: any, socket: any, delay = 1500) => {
 
 const activeHoles: Set<number> = new Set();
 const game = (holes: number, io: any, socket: any) => {
-	spawnMoles(holes, io, socket);
+	// spawnMoles(holes, io, socket);
 
-	// after n ms, stop the game
-	setTimeout(() => {
-		clearTimeout(moleTimeout);
-		togglePlay(socket.room, false);
-		currentPlayers = 0;
+	// // after n ms, stop the game
 
-		const sortedPoints = Object.entries(userScores).sort((a, b) => b[1] - a[1]);
+	// setTimeout(() => {
+	// 	clearTimeout(moleTimeout);
+	// 	togglePlay(socket.room, false);
+	// 	currentPlayers = 0;
 
-		io.to(socket.room).emit('room:game:stop', sortedPoints);
+	// 	const sortedPoints = Object.entries(userScores).sort((a, b) => b[1] - a[1]);
 
-		userScores = {};
-		// }, 10000);
-	}, 500);
+	// 	io.to(socket.room).emit('room:game:stop', sortedPoints);
+
+	// 	userScores = {};
+	// 	// }, 10000);
+	// }, 500);
 	// }, 5000);
 	// }, 40000);
 };

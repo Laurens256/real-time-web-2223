@@ -21,6 +21,7 @@ interface iMsgObj {
 	msg: string;
 }
 
+const userList: HTMLElement | null = document.querySelector('.user-list-container ul');
 const userCountElement: HTMLElement | null = document.querySelector(
 	'.user-count-container p'
 );
@@ -74,9 +75,44 @@ const initLobbyMsg = () => {
 			createRoomAdmin();
 		});
 
-		if (userCountElement) {
-			socket.on('room:update:users', (userCount: number) => {
-				userCountElement.textContent = String(userCount);
+		if (userCountElement && userList) {
+			socket.on('room:update:users', (users: { id: string; name: string }[]) => {
+				userCountElement.textContent = String(users.length);
+				userList.innerHTML = '';
+
+				users = [
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
+
+				];
+
+				users.forEach((user) => {
+					const li = document.createElement('li');
+					li.textContent = user.name;
+					userList.appendChild(li);
+				});
 			});
 		}
 

@@ -34,7 +34,7 @@ const chatHandlers = (io: any, socket: any) => {
 				);
 
 			socket.emit('room:join:success', socket.user, getRoomPlayState(socket.room));
-			io.to(socket.room).emit('room:update:users', getRoomMembers(socket.room).length);
+			io.to(socket.room).emit('room:update:users', getRoomMembers(socket.room));
 		} else {
 			socket.emit('room:join:error', 'Room does not exist');
 		}
@@ -75,7 +75,7 @@ const chatHandlers = (io: any, socket: any) => {
 			'room:msg:system',
 			`<nickname>${socket.user}</nickname> has left the room`
 		);
-		io.to(socket.room).emit('room:update:users', getRoomMembers(socket.room).length);
+		io.to(socket.room).emit('room:update:users', getRoomMembers(socket.room));
 	});
 };
 

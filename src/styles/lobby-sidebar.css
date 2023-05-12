@@ -61,6 +61,44 @@
 	fill: var(--text-color);
 }
 
+.lobbyview aside section.info div.user-list-container:hover,
+.lobbyview aside section.info div.user-count-container:hover + div.user-list-container {
+	opacity: 1;
+	pointer-events: all;
+}
+
+.lobbyview aside section.info div.user-list-container {
+	background-color: var(--bg-color-panel);
+	pointer-events: none;
+	opacity: 0;
+	height: 4rem;
+	width: calc(min(22rem, 96vw) - var(--panel-padding) * 2 - var(--sidebar-inset));
+	position: fixed;
+	right: calc(var(--sidebar-inset) + var(--panel-padding) + 0.5rem);
+	top: calc(var(--sidebar-inset) + var(--panel-padding) + 1.5rem);
+	transition: opacity 0.2s ease-in-out;
+	border: solid var(--bg-color) 2px;
+	border-radius: 1rem;
+}
+
+.lobbyview aside section.info div.user-list-container ul {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 0.5rem;
+	height: 100%;
+	padding: 0.1rem 0.5rem;
+	overflow-y: auto;
+}
+
+.lobbyview aside section.info div.user-list-container ul li {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	height: 1.25rem;
+	width: 100%;
+	font-size: .9rem;
+}
+
 .lobbyview aside section.chat {
 	--heading-height: 2.3rem;
 	right: 0;
@@ -342,7 +380,6 @@
 	outline-width: 3px;
 	outline-offset: -3px;
 }
-
 
 /* trending terms styles */
 .lobbyview aside dialog.empty ul:first-of-type,
