@@ -95,10 +95,28 @@
 	content: 'JOIN';
 }
 
+.homeview .start-form #join_input.invalid {
+	border-color: red;
+}
+
+.homeview .start-form #join_input + span {
+	display: none;
+	color: red;
+	font-size: 0.8rem;
+	position: absolute;
+	bottom: -1.1rem;
+	left: .2rem;
+}
+
+.homeview .start-form #join_input.invalid + span {
+	display: block;
+}
+
 .homeview .start-form div {
 	display: flex;
 	flex-direction: column;
 	gap: 0.2rem;
+	position: relative;
 }
 
 .homeview .start-form div label {

@@ -36,6 +36,11 @@ const handleFormSubmit = async (e: SubmitEvent) => {
 		).text();
 	} else {
 		room = joinRoomInput?.value.toUpperCase() || '';
+
+		if (!room || room.length !== 6) {
+			joinRoomInput?.classList.add('invalid');
+			return;
+		}
 	}
 	window.location.href = `/rooms/${room}`;
 };
