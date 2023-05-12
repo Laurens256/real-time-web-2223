@@ -80,37 +80,17 @@ const initLobbyMsg = () => {
 				userCountElement.textContent = String(users.length);
 				userList.innerHTML = '';
 
-				users = [
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-					{ id: '1', name: 'tesdasdas saddasdsa dsadsadas dasdasdasd t' },
-
-				];
-
 				users.forEach((user) => {
 					const li = document.createElement('li');
-					li.textContent = user.name;
+
+					if (user.name === nickName) {
+						const strong = document.createElement('strong');
+						strong.textContent = user.name;
+						li.appendChild(strong);
+					} else {
+						li.textContent = user.name;
+					}
+
 					userList.appendChild(li);
 				});
 			});

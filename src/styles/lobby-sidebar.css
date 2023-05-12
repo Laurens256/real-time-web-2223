@@ -67,6 +67,10 @@
 	pointer-events: all;
 }
 
+.lobbyview aside section.info div.user-count-container:hover {
+	cursor: default;
+}
+
 .lobbyview aside section.info div.user-list-container {
 	background-color: var(--bg-color-panel);
 	pointer-events: none;

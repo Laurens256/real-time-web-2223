@@ -37,7 +37,7 @@
 	border: solid 2px var(--bg-accent-color);
 }
 
-.homeview section.btn-section[data-action='join']::after {
+.homeview section.btn-section[data-placement='right']::after {
 	left: calc(50% + var(--padding) / 8);
 }
 
@@ -56,8 +56,8 @@
 	color: var(--text-color);
 }
 
-.homeview section.btn-section[data-action='create'] button[data-action='create'],
-.homeview section.btn-section[data-action='join'] button[data-action='join'] {
+.homeview section.btn-section[data-placement='left'] button:first-of-type,
+.homeview section.btn-section[data-placement='right'] button:last-of-type {
 	color: var(--white);
 }
 

@@ -44,9 +44,16 @@ const toggleFormAction = (e: MouseEvent) => {
 	const button = e.currentTarget;
 	if (!button || !(button instanceof HTMLButtonElement)) return;
 
-	const action = button.getAttribute('data-action') || 'create';
+	const action = button.getAttribute('data-action') || 'join';
+	
+	let placement = 'right';
+	const sibling = button.nextElementSibling;
+	if (sibling && sibling instanceof HTMLButtonElement) {
+		placement = 'left';
+	}
 
 	actionButtonSection?.setAttribute('data-action', action);
+	actionButtonSection?.setAttribute('data-placement', placement);
 	formContainer?.setAttribute('data-action', action);
 };
 
